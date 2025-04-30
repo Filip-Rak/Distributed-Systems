@@ -5,7 +5,7 @@ std::shared_ptr<std::vector<Node>> load_nodes(const std::string& filename)
 	std::ifstream file(filename);
 
 	if (!file.good())
-		throw std::runtime_error("Failed to open: " + filename);
+		throw std::runtime_error("Failed to open file: " + filename);
 
 	// Load first row number
 	int num_nodes;
@@ -48,6 +48,7 @@ std::shared_ptr<std::vector<Node>> load_nodes(const std::string& filename)
 		nodes_ptr->emplace_back(i, job_queue, num_nodes);
 	}
 
+	// Give a pointer to a array of nodes to each node
 	for (auto& node : *nodes_ptr)
 		node.set_nodes(nodes_ptr);
 

@@ -22,7 +22,7 @@
  *		- The first number is the process ID (0-based).
  *		- The following numbers are timestamps at which that process wants to enter the critical section.
  *		- A process ID can appear on multiple lines — jobs will be merged.
- *		- Timestamps for each process will be sorted internally. The order of input its irrelevant.
+ *		- Timestamps for each process will be sorted internally. The order of input is irrelevant.
  *
  *	Example:
  *		3
@@ -92,7 +92,7 @@ int main()
 	}
 	catch (std::exception ex)
 	{
-		std::cout << "Exception: " << ex.what() << "\n";
+		std::cout << "Exception -> " << ex.what() << "\n";
 		return 0;
 	}
 
