@@ -73,7 +73,7 @@ void Node::enter_cs()
 	local_clock += 1;
 
 	// Do the job
-	std::cout << "CS: "
+	std::cout << "Entered: "
 		<< "\n\tProcess_id: " << id
 		<< "\n\tLocal clock: " << local_clock
 		<< "\n\tJob's timestamp: " << job_timestamps.front() << "\n";
@@ -124,14 +124,14 @@ bool Node::has_jobs() const
 	return !job_timestamps.empty();
 }
 
-std::string Node::get_data_string() const
+std::string Node::get_debug_data_string() const
 {
 	std::ostringstream out;
 
 	out << "ID: " << id << "\n";
 	out << "Local clock: " << local_clock << "\n";
 	// out << "Nodes [id, timestamps.size()]: ";
-	out << "Nodes: ";
+	out << "References to nodes: ";
 	for (auto node : *nodes_ptr)
 	{
 		// out << "[" << node.id << ", " << node.job_timestamps.size() << "] ";
@@ -154,6 +154,25 @@ std::string Node::get_data_string() const
 	out << "\nDeferred: ";
 	for (int id : defered_requests)
 		out << id << " ";
+
+	out << "\n----------\n";
+
+	return out.str();
+}
+
+std::string Node::get_clean_data_string() const
+{
+	std::ostringstream out;
+	out << "ID: " << id << "\n";
+	out << "Local clock: " << local_clock << "\n";
+
+	out << "Job timestamps: ";
+	std::queue<int> job_copy(job_timestamps);
+	while (!job_copy.empty())
+	{
+		out << job_copy.front() << " ";
+		job_copy.pop();
+	}
 
 	out << "\n----------\n";
 

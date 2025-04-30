@@ -1,3 +1,42 @@
+﻿/*
+ *	Assignment: Ricart-Agrawala’s Symmetric Algorithm
+ *	Author: Filip Rak
+ * 
+ *	Description:
+ *		The program simulates nodes competing for acces to the Critical Section  
+ *		using the Ricart-Agrawala’s Symmetric Algorithm.
+ *
+ *	Input format
+ *		- Name of the file followed by it's extension.
+ * 
+ *	Example: input1.txt
+ * 
+ *	Example file format:
+ *	Line 1:
+ *		<number_of_nodes>
+ *			e.g., "3" → means nodes with IDs 0, 1, and 2 will be simulated.
+ *
+ *	Subsequent lines:
+ *		<process_id> <timestamp_1> <timestamp_2> ...
+ *		- Each line defines one or more jobs for a given process.
+ *		- The first number is the process ID (0-based).
+ *		- The following numbers are timestamps at which that process wants to enter the critical section.
+ *		- A process ID can appear on multiple lines — jobs will be merged.
+ *		- Timestamps for each process will be sorted internally. The order of input its irrelevant.
+ *
+ *	Example:
+ *		3
+ *		0 1 2 3     // Node 0 wants to enter CS at logical times 1, 2, and 3
+ *		2 3         // Node 2 has a job at logical time 3
+ *		2 6 4       // Node 2 also has jobs at time 4 and 6
+ *		1 0         // Node 1 has a job at time 0
+ *
+ *	Output:
+ *		- Initial state of loaded nodes prior to simulation.
+ *		- Critical Section entries.
+ *		- Final state of the nodes once all jobs have been completed.
+ */
+
 #include <iostream>
 #include <vector>
 #include <memory>
@@ -36,7 +75,11 @@ void main_loop(const std::shared_ptr<std::vector<Node>>& nodes)
 int main()
 {
 	/* Load the file data */
-	std::string input_file = "input.txt";
+	std::string input_file = "input1.txt";
+
+	std::cout << "Input file with extension: ";
+	std::cin >> input_file;
+
 	std::shared_ptr<std::vector<Node>> nodes;
 
 	try
@@ -50,15 +93,15 @@ int main()
 	}
 
 	/* Initial State Print */
-	std::cout << "---- Intiial State of All Nodes ---\n";
+	std::cout << "/* Intial State of All Nodes */\n";
 	print_nodes_state(nodes);
 	std::cout << "\n";
 
 	/* Start the sim */
-	std::cout << "---- Within the critical section ----\n";
+	std::cout << "/* Within the critical section */\n";
 	main_loop(nodes);
 
 	/* Summary */
-	std::cout << "\n---- Final State of All Nodes ---\n";
+	std::cout << "\n/* Final State of All Nodes */\n";
 	print_nodes_state(nodes);
 }

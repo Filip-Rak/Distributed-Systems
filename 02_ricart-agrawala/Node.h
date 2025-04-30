@@ -37,7 +37,8 @@ public:
 
 	/* Getters */
 	bool has_jobs() const;
-	std::string get_data_string() const;
+	std::string get_debug_data_string() const;
+	std::string get_clean_data_string() const;
 
 	/* Setters */
 	void set_nodes(const std::shared_ptr<std::vector<Node>>& all_nodes);
