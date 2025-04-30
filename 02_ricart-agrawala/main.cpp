@@ -64,9 +64,13 @@ void main_loop(const std::shared_ptr<std::vector<Node>>& nodes)
 			}
 		}
 
-		if (!jobs_left) return;
+		if (!jobs_left)
+		{
+			std::cout << "No jobs left. Exitting the main loop...\n";
+			return;
+		}
 
-		// Try job
+		// Go through each node and check if it's time for another request
 		for (Node& node : *nodes)
 			node.try_job();
 	}
@@ -93,15 +97,15 @@ int main()
 	}
 
 	/* Initial State Print */
-	std::cout << "/* Intial State of All Nodes */\n";
+	std::cout << "/* Initial state of all nodes */\n";
 	print_nodes_state(nodes);
 	std::cout << "\n";
 
 	/* Start the sim */
-	std::cout << "/* Within the critical section */\n";
+	std::cout << "/* Within the main loop */\n";
 	main_loop(nodes);
 
 	/* Summary */
-	std::cout << "\n/* Final State of All Nodes */\n";
+	std::cout << "\n/* Final state of all nodes */\n";
 	print_nodes_state(nodes);
 }

@@ -5,9 +5,15 @@ Node::Node(int id, const std::queue<int>& jobs, int node_num)
 
 void Node::send_request_all()
 {
+	// Print the state
+	std::cout << std::left 
+		<< "[Request] "
+		<< "Node " << std::setw(2) << this->id << " | "
+		<< "Clock: " << std::setw(3) << local_clock << " | "
+		<< "Job TS: " << job_timestamps.front() << "\n";
+
 	// Increase the clock by 1
 	local_clock += 1;
-
 
 	// Ask all the nodes for permission
 	auto& nodes_vec = *nodes_ptr;
@@ -73,10 +79,11 @@ void Node::enter_cs()
 	local_clock += 1;
 
 	// Do the job
-	std::cout << "Entered: "
-		<< "\n\tProcess_id: " << id
-		<< "\n\tLocal clock: " << local_clock
-		<< "\n\tJob's timestamp: " << job_timestamps.front() << "\n";
+	std::cout << std::left
+		<< "[CS" << std::setw(7) << "] "
+		<< "Node " << std::setw(2) << this->id << " | "
+		<< "Clock: " << std::setw(3) << local_clock << " | "
+		<< "Job TS: " << job_timestamps.front() << "\n";
 
 	// Zero all control variables
 	request_sent = false;
