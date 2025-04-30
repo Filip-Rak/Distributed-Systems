@@ -4,10 +4,13 @@
 # But not directories (needed so Git sees subfolders)
 !*/
 
-# Allow source and text files
+# Allow source text and image files
 !*.cpp
 !*.h
 !*.txt
+!*.png
+!*.jpg
+!*.jpeg
 
 # Always include this file
 !.gitignore
