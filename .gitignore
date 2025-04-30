@@ -1,0 +1,13 @@
+# Ignore everything
+*
+
+# But not directories (needed so Git sees subfolders)
+!*/
+
+# Allow source and text files
+!*.cpp
+!*.h
+!*.txt
+
+# Always include this file
+!.gitignore
