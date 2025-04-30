@@ -36,10 +36,14 @@ std::shared_ptr<std::vector<Node>> load_nodes(const std::string& filename)
 	while (std::getline(file, line))
 	{
 		std::stringstream ss(line);
-		int node_id, job_timestamp;
-		ss >> node_id >> job_timestamp;
+		int node_id;
+		ss >> node_id;
 
-		node_job_map[node_id].push(job_timestamp);
+		int job_buffer;
+		while (ss >> job_buffer)
+		{
+			node_job_map[node_id].push(job_buffer);
+		}
 	}
 
 	file.close();
@@ -62,9 +66,7 @@ std::shared_ptr<std::vector<Node>> load_nodes(const std::string& filename)
 	}
 
 	for (auto& node : *nodes_ptr)
-	{
 		node.set_nodes(nodes_ptr);
-	}
 
 	return nodes_ptr;
 }
