@@ -58,7 +58,7 @@ std::vector<std::vector<int>> load_adjency_matrix(const std::string& filename)
     std::vector<std::vector<int>> graph;
     std::ifstream file(filename);
 
-    if (!file.good())
+    if (!file.is_open())
         throw std::runtime_error("Failed to open file: " + filename);
 
     std::string line;
