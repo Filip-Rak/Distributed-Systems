@@ -138,14 +138,16 @@ void Node::set_nodes(const std::shared_ptr<std::vector<Node>>& all_nodes)
 	this->nodes_ptr = all_nodes;
 }
 
-void Node::print_data()
+void Node::print_data() const
 {
 	std::cout << "ID: " << id << "\n";
 	std::cout << "Local clock: " << local_clock << "\n";
-	std::cout << "Nodes [id, timestamps.size()]: ";
+	// std::cout << "Nodes [id, timestamps.size()]: ";
+	std::cout << "Nodes: ";
 	for (auto node : *nodes_ptr)
 	{
-		std::cout << "[" << node.id << ", " << node.job_timestamps.size() << "] ";
+		// std::cout << "[" << node.id << ", " << node.job_timestamps.size() << "] ";
+		std::cout << node.id << " ";
 	}
 
 	std::cout << "\nJob timestamps: ";

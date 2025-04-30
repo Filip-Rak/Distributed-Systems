@@ -43,5 +43,5 @@ public:
 	void set_nodes(const std::shared_ptr<std::vector<Node>>& all_nodes);
 
 	/* Deubg */
-	void print_data();
+	void print_data() const;
 };

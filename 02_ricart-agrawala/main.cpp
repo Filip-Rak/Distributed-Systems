@@ -71,14 +71,8 @@ std::shared_ptr<std::vector<Node>> load_nodes(const std::string& filename)
 
 void main_loop(std::shared_ptr<std::vector<Node>> nodes)
 {
-	int _debug_iter_limit = 10;
-
-	// std::cout << "DEBUG: Forced break in mainloop\n";
 	while (true)
-	// while (_debug_iter_limit > 0)
 	{
-		_debug_iter_limit--;
-
 		// Run the loop as long as there are jobs left
 		bool jobs_left = false;
 		for (Node node : *nodes)
@@ -105,13 +99,21 @@ void main_loop(std::shared_ptr<std::vector<Node>> nodes)
 	}
 }
 
+void print_nodes_state(const std::shared_ptr<std::vector<Node>>& nodes)
+{
+	for (Node node : *nodes)
+	{
+		node.print_data();
+	}
+}
+
 int main()
 {
 	/* Load the file data */
 	std::string input_file = "input.txt";
 	std::shared_ptr<std::vector<Node>> nodes;
 
-	try 
+	try
 	{
 		nodes = load_nodes(input_file);
 	}
@@ -121,14 +123,14 @@ int main()
 		return 0;
 	}
 
+	/* Initial State Print */
+	std::cout << "---- Intiial State of All Nodes ---\n";
+	print_nodes_state(nodes);
+
 	/* Start the sim*/
 	main_loop(nodes);
-	
 
 	/* Summary */
-	std::cout << "---- Final State of All Node ---\n";
-	for (Node node : *nodes)
-	{
-		node.print_data();
-	}
+	std::cout << "\n---- Final State of All Nodes ---\n";
+	print_nodes_state(nodes);
 }
