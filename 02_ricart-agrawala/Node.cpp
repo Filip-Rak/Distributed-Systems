@@ -48,7 +48,7 @@ void Node::handle_request(int sender_id, int sender_timestamp)
 	// Check if I want to do my job
 	if (!job_timestamps.empty() && local_clock >= job_timestamps.front())
 	{
-		if (job_timestamps.front() > sender_timestamp ||
+		if (job_timestamps.front() < sender_timestamp ||
 			(job_timestamps.front() == sender_timestamp && id < sender_id))
 		{
 			// This node goes first
@@ -97,9 +97,10 @@ void Node::enter_cs()
 	job_timestamps.pop();
 
 	// Give go ahead to all defered requests
-	for (int node_id : defered_requests)
+	while (!defered_requests.empty())
 	{
-		send_go_ahead(node_id);
+		send_go_ahead(defered_requests.front());
+		defered_requests.pop_front();
 	}
 }
 

@@ -85,26 +85,18 @@ void main_loop(std::shared_ptr<std::vector<Node>> nodes)
 			}
 		}
 
-		if (!jobs_left) 
-			return;
+		if (!jobs_left) return;
 
 		// Try job
 		for (Node& node : *nodes)
-		{
 			node.try_job();
-			// node.print_data();
-		}
-
-		// std::cout << "\n###############\n";
 	}
 }
 
 void print_nodes_state(const std::shared_ptr<std::vector<Node>>& nodes)
 {
 	for (Node node : *nodes)
-	{
 		node.print_data();
-	}
 }
 
 int main()
@@ -127,7 +119,7 @@ int main()
 	std::cout << "---- Intiial State of All Nodes ---\n";
 	print_nodes_state(nodes);
 
-	/* Start the sim*/
+	/* Start the sim */
 	main_loop(nodes);
 
 	/* Summary */
