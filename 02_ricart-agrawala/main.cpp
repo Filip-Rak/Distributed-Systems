@@ -5,7 +5,11 @@
 #include "Node.h"
 #include "Utils.h"
 
-void main_loop(std::shared_ptr<std::vector<Node>> nodes)
+/*
+ * @brief Runs the main loop of the sim.
+ * @param nodes: A reference to a shared pointer to a vector of Node.
+ */
+void main_loop(const std::shared_ptr<std::vector<Node>>& nodes)
 {
 	while (true)
 	{
@@ -48,8 +52,10 @@ int main()
 	/* Initial State Print */
 	std::cout << "---- Intiial State of All Nodes ---\n";
 	print_nodes_state(nodes);
+	std::cout << "\n";
 
 	/* Start the sim */
+	std::cout << "---- Within the critical section ----\n";
 	main_loop(nodes);
 
 	/* Summary */

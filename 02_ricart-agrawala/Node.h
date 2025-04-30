@@ -1,10 +1,10 @@
 #pragma once
 
-#include <vector>
 #include <list>
 #include <queue>
+#include <vector>
 #include <memory>
-#include <optional>
+#include <sstream>
 #include <iostream>
 
 class Node
@@ -12,7 +12,7 @@ class Node
 	/* Attributes */
 	const int id;
 	int local_clock = 0;
-	bool waiting_for_answers = false;
+	bool request_sent = false;
 
 	std::shared_ptr<std::vector<Node>> nodes_ptr;	// Reference to all nodes. Includes self reference.
 
@@ -25,23 +25,20 @@ class Node
 	void send_go_ahead(int recv_id);
 
 	void handle_request(int sender_id, int sender_timestamp);
-	bool verify_go_aheads();
+	bool verify_go_aheads() const;
 	void enter_cs();
 
 public:
 	/* Constructor */
 	Node(int id, const std::queue<int>& jobs, int node_num);
-	Node();
 
 	/* Public Methods */
 	void try_job();
 
 	/* Getters */
-	bool has_jobs();
+	bool has_jobs() const;
+	std::string get_data_string() const;
 
 	/* Setters */
 	void set_nodes(const std::shared_ptr<std::vector<Node>>& all_nodes);
-
-	/* Deubg */
-	void print_data() const;
 };

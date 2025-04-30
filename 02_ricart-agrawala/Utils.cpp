@@ -57,5 +57,5 @@ std::shared_ptr<std::vector<Node>> load_nodes(const std::string& filename)
 void print_nodes_state(const std::shared_ptr<std::vector<Node>>& nodes)
 {
 	for (Node node : *nodes)
-		node.print_data();
+		std::cout << node.get_data_string();
 }
