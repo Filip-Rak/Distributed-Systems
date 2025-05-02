@@ -34,6 +34,7 @@ std::shared_ptr<std::vector<Node>> load_nodes(const std::string& filename)
 	// Fill the nodes with input
 	auto nodes_ptr = std::make_shared<std::vector<Node>>();
 	nodes_ptr->reserve(num_nodes);
+
 	for (int i = 0; i < num_nodes; i++)
 	{
 		auto pq = node_job_map[i];
@@ -48,7 +49,7 @@ std::shared_ptr<std::vector<Node>> load_nodes(const std::string& filename)
 		nodes_ptr->emplace_back(i, job_queue, num_nodes);
 	}
 
-	// Give a pointer to a array of nodes to each node
+	// Give a pointer pointing to an array of nodes to each node
 	for (auto& node : *nodes_ptr)
 		node.set_nodes(nodes_ptr);
 
