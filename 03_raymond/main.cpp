@@ -32,7 +32,7 @@ void main_loop(std::vector<std::shared_ptr<Node>>& nodes)
 		iteration += 1;
 	}
 
-	std::cout << "No jobs left. Exitting main loop...";
+	std::cout << "No jobs left. Exitting main loop...\n";
 }
 
 int main()
@@ -47,13 +47,17 @@ int main()
 	catch (std::exception ex)
 	{
 		std::cout << "Exception: " << ex.what() << "\n";
-		return;
+		return 0;
 	}
 
 	// Print initial state of the nodes
+	std::cout << "-- Nodes on initialization --\n";
+	print_node_info(nodes);
 
 	// Start the main loop
 	main_loop(nodes);
 
 	// Print the final state of the nodes
+	std::cout << "-- Nodes after exit --\n";
+	print_node_info(nodes);
 }

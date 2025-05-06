@@ -34,20 +34,36 @@ std::vector<std::shared_ptr<Node>> load_nodes_from_file(const std::string& filen
 	while (file >> node_id)
 		node_to_jobs[node_id].push(timestamp++);
 
-	/* Create Nodes */
-	std::vector<std::shared_ptr<Node>> nodes;
-
-	// Root node
-	nodes.emplace_back(std::make_shared<Node>(root_node_id, node_to_jobs[root_node_id]));
-
-	// Other nodes
-	for (auto [node_id, parent] : node_to_parent)
-	{
-		auto& jobs = node_to_jobs[node_id];
-		nodes.emplace_back(std::make_shared<Node>(node_id, jobs, parent));
-	}
-
 	file.close();
 
+	/* Create Nodes */
+	// Create all nodes and store them by ID
+	std::unordered_map<int, std::shared_ptr<Node>> id_to_node;
+
+	// Root node
+	id_to_node[root_node_id] = std::make_shared<Node>(root_node_id, std::move(node_to_jobs[root_node_id]), true);
+
+	// Other nodes
+	for (const auto& [node_id, _] : node_to_parent)
+	{
+		auto& jobs = node_to_jobs[node_id];
+		id_to_node[node_id] = std::make_shared<Node>(node_id, std::move(jobs));
+	}
+
+	// Assign parents
+	for (const auto& [node_id, parent_id] : node_to_parent)
+		id_to_node[node_id]->set_parent(id_to_node[parent_id]);
+
+	// Convert to vector (optional if you want ordered storage)
+	std::vector<std::shared_ptr<Node>> nodes;
+	for (auto& [_, node] : id_to_node)
+		nodes.push_back(node);
+
 	return nodes;
+}
+
+void print_node_info(const std::vector<std::shared_ptr<Node>>& nodes)
+{
+	for (auto node_ptr : nodes)
+		std::cout << node_ptr->get_debug_string() << "\n";
 }

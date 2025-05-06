@@ -3,6 +3,7 @@
 #include <queue>
 #include <memory>
 #include <iostream>
+#include <sstream>
 
 class Node
 {
@@ -24,11 +25,15 @@ class Node
 
 public:
 	/* Constructor */
-	Node(int id, std::queue<int> jobs, std::shared_ptr<Node> parent = nullptr, bool has_token = false);
+	Node(int id, std::queue<int> jobs, bool has_token = false);
 
 	/* Public Methods */
 	void process(int iteration);
 
+	/* Setters */
+	void set_parent(std::shared_ptr<Node>& parent);
+
 	/* Getters */
 	bool has_jobs() const;
+	std::string get_debug_string() const;
 };

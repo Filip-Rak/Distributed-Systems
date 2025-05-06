@@ -26,8 +26,8 @@ void Node::enter_cs()
 	request_in_progress = false;
 }
 
-Node::Node(int id, std::queue<int> jobs, std::shared_ptr<Node> parent, bool has_token)
-	: id(id), jobs(jobs), parent(parent), has_token(has_token){}
+Node::Node(int id, std::queue<int> jobs, bool has_token)
+	: id(id), jobs(jobs), parent(nullptr), has_token(has_token){}
 
 void Node::process(int iteration)
 {
@@ -56,7 +56,46 @@ void Node::process(int iteration)
 	}
 }
 
+void Node::set_parent(std::shared_ptr<Node>& parent)
+{
+	this->parent = parent;
+}
+
 bool Node::has_jobs() const
 {
 	return !jobs.empty();
+}
+
+std::string Node::get_debug_string() const
+{
+	std::ostringstream out;
+	
+	out << "ID: " << id << "\n";
+	out << "has_token: " << has_token << "\n";
+	out << "request_in_progress: " << request_in_progress << "\n";
+	out << "parent id: " << parent->id << "\n";
+
+	std::queue<std::shared_ptr<Node>> token_requests_copy(token_requests);
+	
+	out << "token requests (IDs): ";
+	while (!token_requests_copy.empty())
+	{
+		out << token_requests_copy.front()->id << " ";
+		token_requests_copy.pop();
+	}
+
+	out << "\n";
+
+	std::queue<int> jobs_copy(jobs);
+
+	out << "jobs: ";
+	while (!jobs_copy.empty())
+	{
+		out << jobs_copy.front() << " ";
+		jobs_copy.pop();
+	}
+
+	out << "\n";
+
+	return out.str();
 }
