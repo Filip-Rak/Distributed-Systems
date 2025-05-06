@@ -4,6 +4,7 @@ void Node::transfer_token(std::shared_ptr<Node>& receiver)
 {
 	this->has_token = false;
 	receiver->has_token = true;
+	this->parent = receiver;
 }
 
 void Node::request_token_from_parent()
