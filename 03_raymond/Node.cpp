@@ -2,19 +2,22 @@
 
 void Node::transfer_token(std::shared_ptr<Node>& receiver)
 {
+	// Transfer the token & update parents
 	this->has_token = false;
 	this->parent = receiver;
 	receiver->has_token = true;
 	receiver->parent = nullptr;
 
+	// Current parent has not received my request
 	passed_request_up = false;
 
-	std::cout << std::left <<
-		"[Transfer] " << this->id << " -> " << receiver->id << "\n";
+	// Print the state
+	std::cout << std::left <<"[Transfer] " << this->id << " -> " << receiver->id << "\n";
 }
 
 void Node::request_token_from_parent()
 {
+	// Push self reference to parent's token requests & print
 	parent->token_requests.push(shared_from_this());
 	std::cout << "[Request ] " << this->id << " -> " << parent->id << "\n";
 }
@@ -32,23 +35,27 @@ void Node::enter_cs()
 
 void Node::handle_token()
 {
+	// Nothing to do if there is no requests
 	if (token_requests.empty()) 
 		return;
 	
+	// If the first requester in the queue is me -> go ahead and enter the CS
 	if (token_requests.front() == shared_from_this())
 	{
 		enter_cs();
 	}
-	else
+	else  // I am not first in the queue -> transfer the token
 	{
 		transfer_token(token_requests.front());
 	}
 
+	// A request has been handled
 	token_requests.pop();
 }
 
 void Node::handle_no_token()
 {
+	// Pass the request to parent if has requests left & have not done so already
 	if (!passed_request_up && !token_requests.empty())
 	{
 		request_token_from_parent();
@@ -61,13 +68,14 @@ Node::Node(int id, std::queue<int> jobs, bool has_token)
 
 void Node::process(int iteration)
 {
+	// Push another request to myself if it's time
 	if (!self_requested && !jobs.empty() && jobs.front() <= iteration)
 	{
-		// Sell request
 		token_requests.push(shared_from_this());
 		self_requested = true;
 	}
 
+	// Process frame based on token ownership
 	if (has_token)
 	{
 		handle_token();

@@ -63,12 +63,6 @@ void main_loop(std::vector<std::shared_ptr<Node>>& nodes)
 	int iteration = 0;
 	while (true)
 	{
-		/*if (iteration > 20)
-		{
-			std::cout << "Failed to finish within time limit. Terminating main loop...\n";
-			break;
-		}*/
-
 		// Check if there are jobs left
 		bool jobs_left = false;
 		for (const auto& node_ptr : nodes)
@@ -80,7 +74,7 @@ void main_loop(std::vector<std::shared_ptr<Node>>& nodes)
 			}
 		}
 
-		// Exit if no job
+		// Exit if no more jobs
 		if (!jobs_left)
 		{
 			std::cout << "No jobs left. Exitting main loop...\n";
@@ -90,9 +84,6 @@ void main_loop(std::vector<std::shared_ptr<Node>>& nodes)
 		// Process each node
 		for (auto& node_ptr : nodes)
 			node_ptr->process(iteration);
-
-		// std::cout << "-------------\n";
-		// print_node_info(nodes);
 
 		iteration += 1;
 	}
@@ -106,6 +97,7 @@ int main()
 
 	std::vector<std::shared_ptr<Node>> nodes;
 
+	// Load the data
 	try
 	{
 		nodes = load_nodes_from_file(filename);
@@ -125,6 +117,6 @@ int main()
 	main_loop(nodes);
 
 	// Print the final state of the nodes
-	// std::cout << "\n-- Nodes after exit --\n";
-	// print_node_info(nodes);
+	/*std::cout << "\n-- Nodes after exit --\n";
+	 print_node_info(nodes);*/
 }
