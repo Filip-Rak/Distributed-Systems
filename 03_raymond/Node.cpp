@@ -14,7 +14,7 @@ void Node::transfer_token(std::shared_ptr<Node>& receiver)
 
 void Node::request_token_from_parent()
 {
-	parent->token_requests.push(self_reference);
+	parent->token_requests.push(shared_from_this());
 	std::cout << "[Request] " << this->id << " -> " << parent->id << "\n";
 }
 
@@ -33,7 +33,7 @@ void Node::handle_token()
 	if (token_requests.empty()) 
 		return;
 	
-	if (token_requests.front() == self_reference)
+	if (token_requests.front() == shared_from_this())
 	{
 		enter_cs();
 	}
@@ -59,9 +59,9 @@ Node::Node(int id, std::queue<int> jobs, bool has_token)
 
 void Node::process(int iteration)
 {
-	if (!self_requested && !jobs.empty() && jobs.front() >= iteration)
+	if (!self_requested && !jobs.empty() && jobs.front() <= iteration)
 	{
-		token_requests.push(self_reference);
+		token_requests.push(shared_from_this());
 		self_requested = true;
 	}
 
@@ -78,11 +78,6 @@ void Node::process(int iteration)
 void Node::set_parent(std::shared_ptr<Node>& parent)
 {
 	this->parent = parent;
-}
-
-void Node::set_self_reference(std::shared_ptr<Node>& self)
-{
-	self_reference = self;
 }
 
 bool Node::has_jobs() const

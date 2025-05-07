@@ -5,11 +5,10 @@
 #include <iostream>
 #include <sstream>
 
-class Node
+class Node : public std::enable_shared_from_this<Node>
 {
 	/* Attributes */
 	const int id;
-	std::shared_ptr<Node> self_reference;
 
 	bool has_token;
 	bool passed_request_up = false;
@@ -36,7 +35,6 @@ public:
 
 	/* Setters */
 	void set_parent(std::shared_ptr<Node>& parent);
-	void set_self_reference(std::shared_ptr<Node>& self);
 
 	/* Getters */
 	bool has_jobs() const;
