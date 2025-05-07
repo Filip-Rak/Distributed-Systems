@@ -77,7 +77,7 @@ void main_loop(std::vector<std::shared_ptr<Node>>& nodes)
 		// Exit if no more jobs
 		if (!jobs_left)
 		{
-			std::cout << "No jobs left. Exitting main loop...\n";
+			std::cout << "No jobs left. Exiting main loop...\n";
 			break;
 		}
 
