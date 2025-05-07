@@ -118,5 +118,5 @@ int main()
 
 	// Print the final state of the nodes
 	/*std::cout << "\n-- Nodes after exit --\n";
-	 print_node_info(nodes);*/
+	print_node_info(nodes);*/
 }
