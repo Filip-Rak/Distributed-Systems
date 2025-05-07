@@ -3,62 +3,86 @@
 void Node::transfer_token(std::shared_ptr<Node>& receiver)
 {
 	this->has_token = false;
-	receiver->has_token = true;
 	this->parent = receiver;
+	receiver->has_token = true;
+	receiver->parent = nullptr;
+
+	passed_request_up = false;
+
+	std::cout << "[Transfer] " << this->id << " -> " << receiver->id << "\n";
 }
 
 void Node::request_token_from_parent()
 {
-	auto self_ptr = std::make_shared<Node>(this);
-	parent->token_requests.push(self_ptr);
-	token_requests.push(self_ptr);
-
-	std::cout << "[Request] ID: " << id << "\n";
+	parent->token_requests.push(self_reference);
+	std::cout << "[Request] " << this->id << " -> " << parent->id << "\n";
 }
 
 void Node::enter_cs()
 {
 	// Print the state
-	std::cout << "[CS] ID: " << id << "\n";
+	std::cout << "[CS] Node ID: " << id << " | Job's timestamp: " << jobs.front() << "\n";
 
-	// Zero the state
+	// Clean after CS
 	jobs.pop();
-	request_in_progress = false;
+	self_requested = false;
 }
 
-Node::Node(int id, std::queue<int> jobs, bool has_token)
-	: id(id), jobs(jobs), parent(nullptr), has_token(has_token){}
-
-void Node::process(int iteration)
+void Node::handle_token()
 {
-	if (has_token)
+	if (token_requests.empty()) 
+		return;
+	
+	if (token_requests.front() == self_reference)
 	{
-		if (!token_requests.empty())
-		{
-			if (token_requests.front()->id == this->id)
-				enter_cs();
-			else
-				transfer_token(token_requests.front());
-
-			token_requests.pop();
-		}
+		enter_cs();
 	}
 	else
 	{
-		if (!request_in_progress)
-		{
-			if (jobs.empty() && jobs.front() >= iteration)
-			{
-				request_token_from_parent();
-				request_in_progress = true;
-			}
-		}
+		transfer_token(token_requests.front());
+	}
+
+	token_requests.pop();
+}
+
+void Node::handle_no_token()
+{
+	if (!passed_request_up && !token_requests.empty())
+	{
+		request_token_from_parent();
+		passed_request_up = true;
+	}
+}
+
+Node::Node(int id, std::queue<int> jobs, bool has_token)
+	: id(id), jobs(jobs), parent(nullptr), has_token(has_token) {}
+
+void Node::process(int iteration)
+{
+	if (!self_requested && !jobs.empty() && jobs.front() >= iteration)
+	{
+		token_requests.push(self_reference);
+		self_requested = true;
+	}
+
+	if (has_token)
+	{
+		handle_token();
+	}
+	else
+	{
+		handle_no_token();
 	}
 }
 
 void Node::set_parent(std::shared_ptr<Node>& parent)
 {
 	this->parent = parent;
+}
+
+void Node::set_self_reference(std::shared_ptr<Node>& self)
+{
+	self_reference = self;
 }
 
 bool Node::has_jobs() const
@@ -72,8 +96,11 @@ std::string Node::get_debug_string() const
 	
 	out << "ID: " << id << "\n";
 	out << "has_token: " << has_token << "\n";
-	out << "request_in_progress: " << request_in_progress << "\n";
-	out << "parent id: " << parent->id << "\n";
+	out << "request_in_progress: " << self_requested << "\n";
+	if (parent)
+		out << "parent id: " << parent->id << "\n";
+	else
+		out << "parent id: none (token holder)\n";
 
 	std::queue<std::shared_ptr<Node>> token_requests_copy(token_requests);
 	

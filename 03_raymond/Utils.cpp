@@ -42,19 +42,22 @@ std::vector<std::shared_ptr<Node>> load_nodes_from_file(const std::string& filen
 
 	// Root node
 	id_to_node[root_node_id] = std::make_shared<Node>(root_node_id, std::move(node_to_jobs[root_node_id]), true);
+	id_to_node[root_node_id]->set_self_reference(id_to_node[root_node_id]);
+
 
 	// Other nodes
 	for (const auto& [node_id, _] : node_to_parent)
 	{
 		auto& jobs = node_to_jobs[node_id];
 		id_to_node[node_id] = std::make_shared<Node>(node_id, std::move(jobs));
+		id_to_node[node_id]->set_self_reference(id_to_node[node_id]);
 	}
 
 	// Assign parents
 	for (const auto& [node_id, parent_id] : node_to_parent)
 		id_to_node[node_id]->set_parent(id_to_node[parent_id]);
 
-	// Convert to vector (optional if you want ordered storage)
+	// Convert to vector
 	std::vector<std::shared_ptr<Node>> nodes;
 	for (auto& [_, node] : id_to_node)
 		nodes.push_back(node);
