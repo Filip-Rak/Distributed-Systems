@@ -40,4 +40,5 @@ public:
 	/* Getters */
 	bool has_jobs() const;
 	std::string get_debug_string() const;
+	std::string get_clean_string() const;
 };

@@ -124,3 +124,26 @@ std::string Node::get_debug_string() const
 
 	return out.str();
 }
+
+std::string Node::get_clean_string() const
+{
+	std::ostringstream out;
+
+	out << "ID: " << id << "\n";
+	if (parent)
+		out << "parent id: " << parent->id << "\n";
+	else
+		out << "parent id: none (token holder)\n";
+
+	std::queue<int> jobs_copy(jobs);
+	out << "jobs: ";
+	while (!jobs_copy.empty())
+	{
+		out << jobs_copy.front() << " ";
+		jobs_copy.pop();
+	}
+
+	out << "\n";
+
+	return out.str();
+}

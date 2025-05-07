@@ -65,5 +65,5 @@ std::vector<std::shared_ptr<Node>> load_nodes_from_file(const std::string& filen
 void print_node_info(const std::vector<std::shared_ptr<Node>>& nodes)
 {
 	for (auto node_ptr : nodes)
-		std::cout << node_ptr->get_debug_string() << "\n";
+		std::cout << node_ptr->get_clean_string() << "\n";
 }
