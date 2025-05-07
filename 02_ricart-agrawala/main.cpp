@@ -66,7 +66,7 @@ void main_loop(const std::shared_ptr<std::vector<Node>>& nodes)
 
 		if (!jobs_left)
 		{
-			std::cout << "No jobs left. Exitting the main loop...\n";
+			std::cout << "No jobs left. Exiting the main loop...\n";
 			return;
 		}
 
@@ -93,7 +93,7 @@ int main()
 	catch (std::exception ex)
 	{
 		std::cout << "Exception -> " << ex.what() << "\n";
-		return 0;
+		return 1;
 	}
 
 	/* Initial State Print */

@@ -105,7 +105,7 @@ int main()
 	catch (std::exception ex)
 	{
 		std::cout << "Exception: " << ex.what() << "\n";
-		return 0;
+		return 1;
 	}
 
 	// Print initial state of the nodes
