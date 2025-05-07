@@ -9,19 +9,21 @@ void Node::transfer_token(std::shared_ptr<Node>& receiver)
 
 	passed_request_up = false;
 
-	std::cout << "[Transfer] " << this->id << " -> " << receiver->id << "\n";
+	std::cout << std::left <<
+		"[Transfer] " << this->id << " -> " << receiver->id << "\n";
 }
 
 void Node::request_token_from_parent()
 {
 	parent->token_requests.push(shared_from_this());
-	std::cout << "[Request] " << this->id << " -> " << parent->id << "\n";
+	std::cout << "[Request ] " << this->id << " -> " << parent->id << "\n";
 }
 
 void Node::enter_cs()
 {
 	// Print the state
-	std::cout << "[CS] Node ID: " << id << " | Job's timestamp: " << jobs.front() << "\n";
+	std::cout << "[   CS   ] id = " << id << " | order = " << jobs.front() << "\n";
+	// std::cout << "[CSECTION] id = " << id << " | timestamp = " << jobs.front() << "\n";
 
 	// Clean after CS
 	jobs.pop();
@@ -61,6 +63,7 @@ void Node::process(int iteration)
 {
 	if (!self_requested && !jobs.empty() && jobs.front() <= iteration)
 	{
+		// Sell request
 		token_requests.push(shared_from_this());
 		self_requested = true;
 	}

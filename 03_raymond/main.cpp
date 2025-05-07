@@ -1,54 +1,54 @@
 ﻿/*
- *	Assignment: Raymond's Algorithm
- *	Author: Filip Rak
+ *  Assignment: Raymond's Algorithm
+ *  Author: Filip Rak
  *
- *	Description:
- *		The program simulates nodes competing for acces to the Critical Section
- *		using the Raymond's Algorithm.
+ *  Description:
+ *      This program simulates a distributed system of nodes competing
+ *      for access to a Critical Section using Raymond's Algorithm.
  *
- *	Input format
- *		- Name of the file followed by it's extension.
+ *  Input Format:
+ *      - A text file name (e.g., "input1.txt").
  *
- *	Example: input1.txt
+ *  File Structure:
  *
- *	Example file format:
- *	Line 1:
- *		<number_of_nodes>
- *			the number of nodes to be simulated.
- *	Line 2:
- *		<root_node_id>
- *			the number by which the root node (initial token holder) will be idetified.
+ *  Line 1:
+ *      <number_of_nodes>
+ *          - Total number of nodes in the simulation.
  *
- *	Subsequent <number_of_nodes> lines:
- *		<node_id> <parent_id>
- *		- Each line defines a process and it's parent.
- *		- The first number is the process ID - whichever number you assign.
- *		- The following number is the ID of the parent.
- *		- The order of lines within this section is irrelevant. 
- *		- A parent has to be declared at some point within this section.
- * 
- *	Subsequent lines:
- *		<node_id>
- *		- The id of the node to request the critical section.
- *		- Each node will internally be assigned a timestamp at which it will request the critical section. 
- *		- The order of these requests is based on the input order.
- *		- A <node_id> has to be declared in the prior section.
- *		- Distinct <node_id> can appear multiple times within this section.
- *		- Multiple appearences will be considered separate jobs assigned different timestamps. 
+ *  Line 2:
+ *      <root_node_id>
+ *          - ID of the root node (the initial token holder).
  *
- *	Example:
- *		4		<- The number of nodes to be simulated.
- *		0		<- The ID of the root node.
- *		1 0		<- Node ID followed by the parent's ID.
- *		2 0		<- Node ID followed by the parent's ID.
- *		3 1		<- Node ID followed by the parent's ID.
- *		3		<- Node of ID 3 will request CS during the first time interval.
- *		1		<- Node of ID 1 will request CS during the second time interval.
- *		3		<- Node of ID 3 will request CS once again in the third time interval.
+ *  Next <number_of_nodes> lines:
+ *      <node_id> <parent_id>
+ *          - Defines each node and its parent.
+ *          - <node_id> is the process ID (can be any integer).
+ *          - <parent_id> must reference another declared node.
+ *          - Order of these lines is irrelevant.
  *
- *	Output:
- *		- Initial state of loaded nodes prior to simulation.
- *		- Requests, token transfers and critical section entries.
+ *  Remaining lines:
+ *      <node_id>
+ *          - Indicates that this node will request the critical section.
+ *          - Each line adds a new "job" to that node, assigned an internal timestamp.
+ *          - Node IDs can appear multiple times (to simulate multiple requests).
+ *
+ *  Example Input:
+ *      4       <- Number of nodes
+ *      0       <- ID of the root node
+ *      1 0     <- Node 1's parent is Node 0
+ *      2 0     <- Node 2's parent is Node 0
+ *      3 1     <- Node 3's parent is Node 1
+ *      3       <- Node 3 will request the CS (first job)
+ *      1       <- Node 1 will request the CS (second job)
+ *      3       <- Node 3 will request the CS again (third job)
+ *
+ *  Output:
+ *      - Initial state of all nodes before simulation begins.
+ *      - Step-by-step log of:
+ *          * Requests for the critical section
+ *          * Token transfers
+ *          * CS entries
+ *      - A message when all jobs are completed and simulation ends.
  */
 
 #include <iostream>
@@ -118,9 +118,10 @@ int main()
 	print_node_info(nodes);
 
 	// Start the main loop
+	std::cout << "-- Within the Main Loop\n";
 	main_loop(nodes);
 
 	// Print the final state of the nodes
-	std::cout << "-- Nodes after exit --\n";
-	print_node_info(nodes);
+	// std::cout << "\n-- Nodes after exit --\n";
+	// print_node_info(nodes);
 }
