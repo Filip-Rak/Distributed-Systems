@@ -5,14 +5,14 @@ std::vector<std::shared_ptr<Node>> load_nodes_from_file(const std::string& filen
 	std::ifstream file(filename);
 
 	if (!file.is_open()) 
-		throw "Invalid file name";
+		throw std::runtime_error("Invalid file name");
 
 	// Load the number of nodes
 	int nodes_num;
 	file >> nodes_num;
 
 	if (nodes_num <= 0)
-		throw "Invalid file format";
+		throw std::runtime_error("Invalid file format");
 
 	// Load root node
 	int root_node_id;

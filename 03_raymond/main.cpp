@@ -100,8 +100,11 @@ void main_loop(std::vector<std::shared_ptr<Node>>& nodes)
 
 int main()
 {
+	std::cout << "Input file name with extension: ";
+	std::string filename;
+	std::cin >> filename;
+
 	std::vector<std::shared_ptr<Node>> nodes;
-	std::string filename = "input.txt";
 
 	try
 	{
@@ -118,7 +121,7 @@ int main()
 	print_node_info(nodes);
 
 	// Start the main loop
-	std::cout << "-- Within the Main Loop\n";
+	std::cout << "-- Within the Main Loop --\n";
 	main_loop(nodes);
 
 	// Print the final state of the nodes
