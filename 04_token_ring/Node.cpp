@@ -141,7 +141,7 @@ std::string Node::get_debug_string() const
 	}
 
 	out << "\n";
-	out << "task_in_druation: " << task_in_druation << "\n";
+	out << "Task in duration: " << task_in_druation << "\n";
 
 	return out.str();
 }
