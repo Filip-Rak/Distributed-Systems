@@ -2,8 +2,11 @@
 
 void Node::transfer_token()
 {
-	// Print the state
-	std::cout << "[Transfer] " << id << " -> " << neighbor->id << "\n";
+	// Print the event
+	std::cout << "[Transfer] Node "
+		<< std::setw(2) << id << " | To Node "
+		<< std::setw(1) << neighbor->id << "\n";
+
 
 	// Transfer the token
 	neighbor->token = std::move(token);
@@ -15,7 +18,9 @@ void Node::pass_requests_to_neighbor()
 		return;
 
 	// Print the event
-	std::cout << "[Request] Node id: " << id << "\n";
+	std::cout << "[Request ] Node "
+		<< std::setw(2) << id << " | Forwarding "
+		<< local_requesters.size() << " request(s)\n";
 
 	// Append local requests to next node's requests
 	while (!local_requesters.empty())
@@ -37,9 +42,10 @@ void Node::pass_requests_to_token()
 
 void Node::enter_cs()
 {
-	// Print the state
-	if (job_timestamps.empty()) std::cout << "CRITICAL ERROR IN enter_cs() -> Node id: " << id << "\n";
-	std::cout << "[CS] Node id: " << id << " | Timestamp: " << job_timestamps.front() << "\n";
+	// Print the event
+	std::cout << "[   CS   ] Node "
+		<< std::setw(2) << id
+		<< " | Order: " << std::setw(1) << job_timestamps.front() << "\n";
 
 	// Clean afterwards
 	job_timestamps.pop();
@@ -151,12 +157,10 @@ std::string Node::get_clean_string() const
 {
 	std::ostringstream out;
 
-	out << "ID: " << id << "\n";
-
 	if (token)
-		out << "Token: holder\n";
+		out << "ID: " << id << " (token holder)\n";
 	else
-		out << "Token: nullptr\n";
+		out << "ID: " << id << "\n";
 
 	out << "Job timestamps: ";
 	std::queue<int> jobs_copy(job_timestamps);

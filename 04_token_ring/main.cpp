@@ -52,6 +52,12 @@ int main()
 	std::cout << "--- Initial Node State ---\n";
 	print_nodes(nodes);
 
+	std::cout << "Ring order: ";
+	for (int i = 0; i < nodes.size(); i++)
+		std::cout << "<- " << i << " ";
+
+	std::cout << "<-\n\n";
+
 	// Run main loop
 	std::cout << "--- Within Main Loop ---\n";
 	main_loop(nodes);
