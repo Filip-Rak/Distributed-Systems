@@ -3,6 +3,7 @@
 #include <queue>
 #include <memory>
 #include <iostream>
+#include <sstream>
 
 class Node
 {
@@ -16,7 +17,7 @@ class Node
 	const int id;
 
 	std::unique_ptr<Token> token = nullptr;		// Pointer to the token. nullptr when not the holder.
-	std::unique_ptr<Node> neighbor = nullptr;	// Pointer to next Node in the ring.		
+	std::shared_ptr<Node> neighbor = nullptr;	// Pointer to next Node in the ring.		
 	std::queue<int> job_timestamps;	// Times at which a Node is scheduled to request token.
 	std::queue<int> local_requesters;	// Storing requests before they can be passed further. Max 2 elements really.
 	bool task_in_druation = false;	// When a node started a task & it still hasn't finished.
@@ -40,7 +41,8 @@ public:
 
 	/* Getters */
 	bool has_jobs() const;
+	std::string get_debug_string() const;
 
 	/* Setters */
-	void set_neighbor(std::unique_ptr<Node> neighbor);
+	void set_neighbor(std::shared_ptr<Node> neighbor);
 };

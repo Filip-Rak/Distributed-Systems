@@ -97,7 +97,56 @@ bool Node::has_jobs() const
 	return !job_timestamps.empty();
 }
 
-void Node::set_neighbor(std::unique_ptr<Node> neighbor)
+std::string Node::get_debug_string() const
+{
+	std::ostringstream out;
+
+	if (token)
+	{
+		out << "Token holder: ";
+		std::queue<int> token_queue(token->requester_ids);
+		while (!token_queue.empty())
+		{
+			out << token_queue.front() << " ";
+			token_queue.pop();
+		}
+
+		out << "\n";
+	}
+	else
+	{
+		out << "Token: nullptr\n";
+	}
+
+	if (neighbor)
+		out << "Neighbor: " << neighbor << "\n";
+	else
+		out << "Neighbor: nullptr\n";
+
+	out << "Jobs: ";
+	std::queue<int> jobs_copy(job_timestamps);
+	while (!jobs_copy.empty())
+	{
+		out << jobs_copy.front() << " ";
+		jobs_copy.pop();
+	}
+
+	out << "\n";
+	out << "Local requesters: ";
+	std::queue<int> local_rq_copy(local_requesters);
+	while (!local_rq_copy.empty())
+	{
+		out << local_rq_copy.front() << "";
+		local_rq_copy.pop();
+	}
+
+	out << "\n";
+	out << "task_in_druation: " << task_in_druation << "\n";
+
+	return out.str();
+}
+
+void Node::set_neighbor(std::shared_ptr<Node> neighbor)
 {
 	this->neighbor = neighbor;
 }
