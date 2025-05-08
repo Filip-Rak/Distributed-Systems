@@ -6,6 +6,7 @@
 
 void main_loop(std::vector<std::shared_ptr<Node>>& nodes)
 {
+	int iteration = 0;
 	while (true)
 	{
 		bool jobs_left = false;
@@ -23,6 +24,11 @@ void main_loop(std::vector<std::shared_ptr<Node>>& nodes)
 			std::cout << "No jobs left. Exiting main loop...\n";
 			break;
 		}
+
+		for (auto node_ptr : nodes)
+			node_ptr->process(iteration);
+
+		iteration += 1;
 	}
 }
 
