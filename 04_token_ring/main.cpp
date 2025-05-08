@@ -53,7 +53,7 @@ int main()
 	print_nodes(nodes);
 
 	// Run main loop
-	std::cout << "\n--- Within Main Loop ---\n";
+	std::cout << "--- Within Main Loop ---\n";
 	main_loop(nodes);
 
 	// Print the final state

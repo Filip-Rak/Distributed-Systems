@@ -124,7 +124,7 @@ std::string Node::get_debug_string() const
 	else
 		out << "Neighbor: nullptr\n";
 
-	out << "Jobs: ";
+	out << "Job timestamps: ";
 	std::queue<int> jobs_copy(job_timestamps);
 	while (!jobs_copy.empty())
 	{
@@ -143,6 +143,30 @@ std::string Node::get_debug_string() const
 
 	out << "\n";
 	out << "Task in duration: " << task_in_druation << "\n";
+
+	return out.str();
+}
+
+std::string Node::get_clean_string() const
+{
+	std::ostringstream out;
+
+	out << "ID: " << id << "\n";
+
+	if (token)
+		out << "Token: holder\n";
+	else
+		out << "Token: nullptr\n";
+
+	out << "Job timestamps: ";
+	std::queue<int> jobs_copy(job_timestamps);
+	while (!jobs_copy.empty())
+	{
+		out << jobs_copy.front() << " ";
+		jobs_copy.pop();
+	}
+
+	out << "\n";
 
 	return out.str();
 }

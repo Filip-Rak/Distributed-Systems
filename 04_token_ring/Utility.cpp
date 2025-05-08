@@ -51,6 +51,6 @@ void print_nodes(const std::vector<std::shared_ptr<Node>>& nodes)
 {
 	for (auto node_ptr : nodes)
 	{
-		std::cout << node_ptr->get_debug_string() << "\n";
+		std::cout << node_ptr->get_clean_string() << "\n";
 	}
 }
