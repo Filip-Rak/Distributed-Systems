@@ -23,14 +23,13 @@ class Node
 
 	/* Private Methods */
 	void transfer_token();
-	void pass_requests();
+	void pass_requests_to_neighbor();
 	void pass_requests_to_token();
 	void enter_cs();
 
 	void process_has_token(int iteration);
-	void process_no_token(int iteration);
 
-	bool should_self_request(int iteration);
+	bool should_self_request(int iteration) const;
 
 public:
 	/* Constructor */
@@ -43,4 +42,5 @@ public:
 	bool has_jobs() const;
 
 	/* Setters */
+	void set_neighbor(std::unique_ptr<Node> neighbor);
 };

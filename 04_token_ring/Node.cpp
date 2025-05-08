@@ -2,13 +2,20 @@
 
 void Node::transfer_token()
 {
+	// Print the state
+	std::cout << "[Transfer] " << id << " -> " << neighbor->id << "\n";
+
+	// Transfer the token
 	neighbor->token = std::move(token);
 }
 
-void Node::pass_requests()
+void Node::pass_requests_to_neighbor()
 {
 	if (local_requesters.empty()) 
 		return;
+
+	// Print the event
+	std::cout << "[Request] Node id: " << id << "\n";
 
 	// Append local requests to next node's requests
 	while (!local_requesters.empty())
@@ -46,9 +53,6 @@ void Node::process_has_token(int iteration)
 	// Pass local requests to token
 	pass_requests_to_token();
 
-	if (should_self_request(iteration))
-		token->requester_ids.push(id);
-
 	if (!token->requester_ids.empty())
 	{
 		if (token->requester_ids.front() == id)
@@ -58,18 +62,7 @@ void Node::process_has_token(int iteration)
 	}
 }
 
-void Node::process_no_token(int iteration)
-{
-	if (should_self_request(iteration))
-	{
-		local_requesters.push(id);
-		task_in_druation = true;
-	}
-
-	pass_requests();
-}
-
-bool Node::should_self_request(int iteration)
+bool Node::should_self_request(int iteration) const
 {
 	return (!task_in_druation && !job_timestamps.empty() && iteration >= job_timestamps.front());
 }
@@ -83,17 +76,28 @@ Node::Node(int id, const std::queue<int>& jobs, bool init_token)
 
 void Node::process(int iteration)
 {
+	if (should_self_request(iteration))
+	{
+		local_requesters.push(id);
+		task_in_druation = true;
+	}
+
 	if (token)
 	{
 		process_has_token(iteration);
 	}
 	else
 	{
-		process_no_token(iteration);
+		pass_requests_to_neighbor();
 	}
 }
 
 bool Node::has_jobs() const
 {
 	return !job_timestamps.empty();
+}
+
+void Node::set_neighbor(std::unique_ptr<Node> neighbor)
+{
+	this->neighbor = neighbor;
 }
