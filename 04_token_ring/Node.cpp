@@ -27,9 +27,6 @@ void Node::pass_requests_to_neighbor()
 
 void Node::pass_requests_to_token()
 {
-	if (local_requesters.empty())
-		return;
-
 	// Append local requests to token's requests
 	while (!local_requesters.empty())
 	{
@@ -41,10 +38,12 @@ void Node::pass_requests_to_token()
 void Node::enter_cs()
 {
 	// Print the state
+	if (job_timestamps.empty()) std::cout << "CRITICAL ERROR IN enter_cs() -> Node id: " << id << "\n";
 	std::cout << "[CS] Node id: " << id << " | Timestamp: " << job_timestamps.front() << "\n";
 
 	// Clean afterwards
 	job_timestamps.pop();
+	token->requester_ids.pop();
 	task_in_druation = false;
 }
 
@@ -100,6 +99,8 @@ bool Node::has_jobs() const
 std::string Node::get_debug_string() const
 {
 	std::ostringstream out;
+
+	out << "ID: " << id << "\n";
 
 	if (token)
 	{
