@@ -10,7 +10,6 @@ std::pair<int, std::queue<std::pair<int, int>>> load_from_file(const std::string
 	// Load the number of nodes
 	int nodes_num;
 	file >> nodes_num;
-	file.ignore();
 
 	if (nodes_num <= 0)
 		throw std::runtime_error("Invalid node count");
@@ -24,13 +23,15 @@ std::pair<int, std::queue<std::pair<int, int>>> load_from_file(const std::string
 		int blocked, blocker;
 		file >> blocked >> blocker;
 
-		if (blocked >= nodes_num && blocker >= nodes_num)
+		if (blocked >= nodes_num || blocker >= nodes_num)
 			throw std::runtime_error("Invalid node blocks");
 
 		blocks.push({ blocked, blocker });
 	}
 
 	file.close();
+
+	return { nodes_num, blocks };
 }
 
 std::vector<std::shared_ptr<Node>> create_nodes(int num_of_nodes)
@@ -51,6 +52,7 @@ void print_loaded_data(int num_nodes, std::queue<std::pair<int, int>> block_queu
 	std::cout << "Loaded number of nodes: " << num_nodes << "\n";
 	std::cout << "ID range: 0 - " << num_nodes - 1 << "\n";
 
+	std::cout << "Block order: [blocked, blocker]:\n";
 	while (!block_queue.empty())
 	{
 		auto [blocked, blocker] = block_queue.front();

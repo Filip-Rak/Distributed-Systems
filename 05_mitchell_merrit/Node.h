@@ -2,6 +2,7 @@
 
 #include <memory>
 #include <sstream>
+#include <iostream>
 
 class Node
 {
@@ -22,6 +23,5 @@ public:
 
 	/* Getter */
 	bool detected_deadlock() const;
-	int get_id() const;
 	std::string get_debug_string() const;
 };
