@@ -20,7 +20,7 @@ class Node
 	std::unique_ptr<Token> token = nullptr;		// Pointer to the token. nullptr when not the holder.
 	std::shared_ptr<Node> neighbor = nullptr;	// Pointer to next Node in the ring.		
 	std::queue<int> job_timestamps;				// Times at which a Node is scheduled to request token.
-	std::queue<int> local_requesters;			// Storing requests before they can be passed further. Max 2 elements really.
+	std::queue<int> local_requesters;			// Storing requests before they can be passed further.
 	bool task_in_druation = false;				// When a node started a task & it still hasn't finished.
 
 	/* Private Methods */
@@ -30,7 +30,6 @@ class Node
 	void enter_cs();
 
 	void process_has_token(int iteration);
-
 	bool should_self_request(int iteration) const;
 
 public:
