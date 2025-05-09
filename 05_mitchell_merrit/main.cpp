@@ -20,25 +20,23 @@
  *
  *      Subsequent lines:
  *          <blocked_node_id> <blocking_node_id>
- *              - Each line indicates that the node on the left becomes blocked by the
- *                node on the right at the next simulation step.
- *              - These lines are processed sequentially (one per time step).
+ *              - Each line indicates that the node on the left becomes blocked by the node on the right..
+ *              - These lines are executed sequentially (one per time step).
  *
  *	Example Input:
  *		3
- *      0 1     <- At time step 0, Node 0 is blocked by Node 1
- *      1 2     <- At time step 1, Node 1 is blocked by Node 2
- *      2 0     <- At time step 2, Node 2 is blocked by Node 0
+ *      0 1     <- At time step 0, Node 0 is blocked by Node 1.
+ *      1 2     <- At time step 1, Node 1 is blocked by Node 2.
+ *      2 0     <- At time step 2, Node 2 is blocked by Node 0.
  *
  *  Output:
  *      - Initial state of all nodes
  *      - Per-tick log including:
- *          * Blocking events and resulting label changes
- *          * Transmit rule activations (label propagation)
- *          * Deadlock detection (if and when it occurs)
+ *          * Blocking events and resulting label changes.
+ *          * Transmit rule activations (label propagation).
+ *          * Deadlock detection (if and when it occurs).
  *      - Final state of all nodes
  */
-
 
 #include <iostream>
 #include <vector>
@@ -53,7 +51,7 @@ void main_loop(const std::vector<std::shared_ptr<Node>>& nodes, std::queue<std::
 	int tick = 0;
 	while (true)
 	{
-		std::cout << "\n/*Tick #" << tick++ << "*/\n";
+		std::cout << "\nTick #" << tick++ << "\n";
 
 		bool keep_alive = false;
 
@@ -95,7 +93,10 @@ int main()
 	std::pair<int, std::queue<std::pair<int, int>>> loaded_data;
 
 	// Query file name
+	std::cout << "File name with extension: ";
+
 	std::string filename = "input1.txt";
+	std::cin >> filename;
 
 	// Read file
 	try

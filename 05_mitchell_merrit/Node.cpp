@@ -11,7 +11,7 @@ void Node::block_with(const std::shared_ptr<Node>& blocker_node)
 	blocked_by = blocker_node;
 
 	// Report event
-	std::cout << "[Blocked] " << id << " by " << blocker_node->id
+	std::cout << "[Blocked] Node " << id << " by Node" << blocker_node->id
 		<< " -> new label: " << public_label << "\n";
 }
 
@@ -22,11 +22,14 @@ bool Node::update()
 
 	if (blocked_by->public_label > public_label)
 	{
+		// Adopt label
 		public_label = blocked_by->public_label;
 
+		// Report event
 		std::cout << "[Transmit] Node " << id
 			<< " adopted label " << public_label
-			<< " from blocker " << blocked_by->id << "\n";
+			<< " from Node " << blocked_by->id << "\n";
+
 		return true;
 	}
 
@@ -40,7 +43,8 @@ bool Node::detected_deadlock() const
 
 	if (public_label == private_label && public_label == blocked_by->public_label)
 	{
-		std::cout << "[Deadlock] Node id: " << id << " reports deadlock\n";
+		// Report event
+		std::cout << "[Deadlock] Node " << id << " reports deadlock\n";
 		return true;
 	}
 

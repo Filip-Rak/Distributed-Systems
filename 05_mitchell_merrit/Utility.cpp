@@ -50,7 +50,7 @@ std::vector<std::shared_ptr<Node>> create_nodes(int num_of_nodes)
 void print_loaded_data(int num_nodes, std::queue<std::pair<int, int>> block_queue)
 {
 	std::cout << "Loaded number of nodes: " << num_nodes << "\n";
-	std::cout << "ID range: 0 - " << num_nodes - 1 << "\n";
+	std::cout << "ID range: 0-" << num_nodes - 1 << "\n";
 
 	std::cout << "Block order: [blocked, blocker]:\n";
 	while (!block_queue.empty())
