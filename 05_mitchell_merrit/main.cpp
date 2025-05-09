@@ -1,10 +1,49 @@
+/*
+ *  Assignment: Mitchell-Merritt Deadlock Detection Algorithm
+ *  Author: Filip Rak
+ *
+ *  Description:
+ *      This program simulates a distributed deadlock detection algorithm using the
+ *      Mitchell-Merritt label propagation method. Each node maintains a public and
+ *      private label to track causal dependencies created by blocking relationships.
+ *      When a node becomes blocked by another, its labels are updated and may propagate
+ *      backward through the dependency graph. Deadlock is detected locally by nodes
+ *      using label comparisons, with no explicit message passing or central coordinator.
+ *
+ *  Input:
+ *      - Single file name with extension.
+ *
+ *  Input Format (from file):
+ *      Line 1:
+ *          <number_of_nodes>
+ *              - Total number of nodes in the simulation.
+ *
+ *      Subsequent lines:
+ *          <blocked_node_id> <blocking_node_id>
+ *              - Each line indicates that the node on the left becomes blocked by the
+ *                node on the right at the next simulation step.
+ *              - These lines are processed sequentially (one per time step).
+ *
+ *	Example Input:
+ *		3
+ *      0 1     <- At time step 0, Node 0 is blocked by Node 1
+ *      1 2     <- At time step 1, Node 1 is blocked by Node 2
+ *      2 0     <- At time step 2, Node 2 is blocked by Node 0
+ *
+ *  Output:
+ *      - Initial state of all nodes
+ *      - Per-tick log including:
+ *          * Blocking events and resulting label changes
+ *          * Transmit rule activations (label propagation)
+ *          * Deadlock detection (if and when it occurs)
+ *      - Final state of all nodes
+ */
+
+
 #include <iostream>
 #include <vector>
 #include <memory>
 #include <queue>
-#include <fstream>
-#include <fstream>
-#include <string>
 
 #include "Node.h"
 #include "Utility.h"
