@@ -36,7 +36,7 @@ void main_loop(const std::vector<std::shared_ptr<Node>>& nodes, std::queue<std::
 
 			if (node_ptr->detected_deadlock())
 			{
-				std::cout << "[Main Loop] Deadlock confirmed. Halting.\n";
+				std::cout << "[Main Loop] Deadlock confirmed. Halting...\n";
 				return;
 			}
 		}
@@ -44,7 +44,7 @@ void main_loop(const std::vector<std::shared_ptr<Node>>& nodes, std::queue<std::
 		// Stay in loop as long as changes happen
 		if (!keep_alive && nodes_to_block.empty())
 		{
-			std::cout << "[Main Loop] Stabilized. Exiting main loop...\n";
+			std::cout << "[Main Loop] Stabilized. Halting...\n";
 			break;
 		}
 	}
