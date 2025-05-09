@@ -17,12 +17,9 @@ std::pair<int, std::queue<std::pair<int, int>>> load_from_file(const std::string
 	// Load blocks
 	std::queue<std::pair<int, int>> blocks;
 
-	std::string line;
-	while (std::getline(file, line))
+	int blocked, blocker;
+	while (file >> blocked >> blocker)
 	{
-		int blocked, blocker;
-		file >> blocked >> blocker;
-
 		if (blocked >= nodes_num || blocker >= nodes_num)
 			throw std::runtime_error("Invalid node blocks");
 
