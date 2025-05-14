@@ -8,11 +8,12 @@ bool Node::update()
 	if (!proc_required_resources.empty())
 	{
 		auto res_index = proc_required_resources.front();
-		bool reserved = shared_resources[res_index]->reserve(id);
+		bool free = (*shared_resources)[res_index] == -1;
 
-		if (reserved)
+		if (free)
 		{
 			std::cout << "[Request]: Node " << id << " -> Resource: " << res_index << ": SUCCESS\n";
+			(*shared_resources)[res_index] = id;
 		}
 		else
 		{
@@ -28,7 +29,7 @@ bool Node::update()
 	return !proc_required_resources.empty();
 }
 
-void Node::set_resource_ptr(const std::vector<std::shared_ptr<Resource>>& resources)
+void Node::set_resource_ptr(const std::shared_ptr<std::vector<int>>& resources)
 {
 	shared_resources = resources;
 }

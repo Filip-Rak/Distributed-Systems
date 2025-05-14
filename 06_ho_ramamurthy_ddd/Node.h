@@ -17,8 +17,7 @@ class Node
 	/* Attributes */
 	const int id;
 
-	std::vector<std::shared_ptr<Resource>> shared_resources;
-	// std::shared_ptr<std::vector<bool>> shared_resources;
+	std::shared_ptr<std::vector<int>> shared_resources;
 
 	std::queue<int> proc_required_resources;
 	std::vector<int> proc_pending_resources;
@@ -31,7 +30,7 @@ public:
 	bool update();
 
 	/* Setters */
-	void set_resource_ptr(const std::vector<std::shared_ptr<Resource>>& resources);
+	void set_resource_ptr(const std::shared_ptr<std::vector<int>>& resources);
 
 	/* Getters */
 	std::string get_detailed_string() const;

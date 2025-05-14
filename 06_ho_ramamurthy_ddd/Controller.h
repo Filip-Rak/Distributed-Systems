@@ -14,11 +14,11 @@ class Controller
 {
 	/* Attributes */
 	std::unordered_map<int, std::vector<int>> graph;
-	std::vector<std::shared_ptr<Resource>> resources;
+	std::shared_ptr<std::vector<int>> resources;
 
 public:
 	/* Cosntructor */
-	Controller(const std::vector<std::shared_ptr<Resource>>& resources);
+	Controller(const std::shared_ptr<std::vector<int>>& resources);
 
 	/* Public Methods */
 	bool check_deadlock(const std::vector<std::shared_ptr<Node>>& nodes);

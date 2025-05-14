@@ -42,7 +42,7 @@ int main()
 	std::cout << "File name with extension: ";
 	std::cin >> filename;
 
-	std::pair<std::vector<std::shared_ptr<Node>>, std::vector<std::shared_ptr<Resource>>> loaded_data;
+	std::pair<std::vector<std::shared_ptr<Node>>, std::shared_ptr<std::vector<int>>> loaded_data;
 	try
 	{
 		loaded_data = load_from_file(filename);

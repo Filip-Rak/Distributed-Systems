@@ -1,7 +1,6 @@
 #include "Utility.h"
 
-std::pair<std::vector<std::shared_ptr<Node>>,
-    std::vector<std::shared_ptr<Resource>>> load_from_file(const std::string& filename)
+std::pair<std::vector<std::shared_ptr<Node>>, std::shared_ptr<std::vector<int>>> load_from_file(const std::string& filename)
 {
     /* Load Data */
     std::ifstream file(filename);
@@ -56,13 +55,7 @@ std::pair<std::vector<std::shared_ptr<Node>>,
     }
 
     /* Create Resources */
-    std::vector<std::shared_ptr<Resource>> resources;
-    resources.reserve(num_resources);
-
-    for (std::size_t i = 0; i < num_resources; i++)
-    {
-        resources.push_back(std::make_shared<Resource>(i));
-    }
+    auto resources = std::make_shared<std::vector<int>>(num_resources, -1);
 
     // Assign resources to nodes
     for (auto node_ptr : nodes)
