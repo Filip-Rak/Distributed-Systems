@@ -20,4 +20,7 @@ public:
 
 	/* Public Methods */
 	bool reserve(int requester_id);
+
+	/* Getters */
+	std::shared_ptr<Node> get_parent();
 };

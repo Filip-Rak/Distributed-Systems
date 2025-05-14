@@ -12,3 +12,8 @@ bool Resource::reserve(int requester_id)
 	taken = true;
 	return true;
 }
+
+std::shared_ptr<Node> Resource::get_parent()
+{
+	return parent;
+}

@@ -1,6 +1,7 @@
 #include "Utility.h"
 
-std::vector<std::shared_ptr<Node>> load_from_file(const std::string& filename)
+std::pair<std::vector<std::shared_ptr<Node>>,
+    std::vector<std::shared_ptr<Resource>>> load_from_file(const std::string& filename)
 {
     /* Load Data */
     std::ifstream file(filename);
@@ -49,7 +50,8 @@ std::vector<std::shared_ptr<Node>> load_from_file(const std::string& filename)
         int node_id;
         ss >> node_id;
 
-        node_to_process[node_id].first = timestamp++;
+        // node_to_process[node_id].first = timestamp++;
+        node_to_process[node_id].first = timestamp;
 
         int buffer;
         while (ss >> buffer)
@@ -93,7 +95,7 @@ std::vector<std::shared_ptr<Node>> load_from_file(const std::string& filename)
         node_ptr->set_resource_ptr(resources);
     }
 
-    return nodes;
+    return { nodes, resources };
 }
 
 void print_nodes(const std::vector<std::shared_ptr<Node>>& nodes)
