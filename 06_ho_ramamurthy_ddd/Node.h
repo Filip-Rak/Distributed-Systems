@@ -33,8 +33,8 @@ public:
 	void set_resource_ptr(const std::shared_ptr<std::vector<int>>& resources);
 
 	/* Getters */
-	std::string get_detailed_string() const;
-	std::string get_clean_string() const;
+	std::string get_out_string() const;
+	std::string get_in_string() const;
 	std::vector<int> get_pending_nodes() const;
 	int get_id() const;
 };

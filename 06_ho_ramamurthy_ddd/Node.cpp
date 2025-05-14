@@ -35,12 +35,12 @@ void Node::set_resource_ptr(const std::shared_ptr<std::vector<int>>& resources)
 	shared_resources = resources;
 }
 
-std::string Node::get_detailed_string() const
+std::string Node::get_out_string() const
 {
 	std::ostringstream out;
 
 	out << "ID: " << id << "\n";
-	out << "\nProc pending resources: ";
+	out << "Proc pending resources: ";
 	for (int resource : proc_pending_resources)
 	{
 		out << resource << " ";
@@ -50,7 +50,7 @@ std::string Node::get_detailed_string() const
 	return out.str();
 }
 
-std::string Node::get_clean_string() const
+std::string Node::get_in_string() const
 {
 	std::ostringstream out;
 

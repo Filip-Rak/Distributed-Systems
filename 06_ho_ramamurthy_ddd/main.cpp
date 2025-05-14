@@ -104,7 +104,7 @@ int main()
 
 	// Print inputted data
 	std::cout << "--- Initial Node State ---\n";
-	print_nodes(nodes, &Node::get_clean_string);
+	print_nodes(nodes, &Node::get_in_string);
 
 	// Enter main loop
 	std::cout << "--- Within Main Loop ---\n";
@@ -112,5 +112,5 @@ int main()
 
 	// Print final state
 	std::cout << "\n--- Final Node State ---";
-	print_nodes(nodes, &Node::get_detailed_string);
+	print_nodes(nodes, &Node::get_out_string);
 }
