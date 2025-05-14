@@ -9,10 +9,9 @@
 
 void main_loop(const std::vector<std::shared_ptr<Node>>& nodes, Controller& controller)
 {
-	int iteration = 0;
 	while (true)
 	{
-		// Update nodes
+		// Update nodes. Record if a change has happened
 		bool state_change = false;
 		for (auto node_ptr : nodes)
 		{
@@ -33,14 +32,15 @@ void main_loop(const std::vector<std::shared_ptr<Node>>& nodes, Controller& cont
 			std::cout << "Deadlock detected. Exitting main loop...\n";
 			break;
 		}
-
-		iteration++;
 	}
 }
 
 int main()
 {
 	std::string filename = "input1.txt";
+
+	std::cout << "File name with extension: ";
+	// std::cin >> filename;
 
 	std::pair<std::vector<std::shared_ptr<Node>>, std::vector<std::shared_ptr<Resource>>> loaded_data;
 	try
@@ -61,13 +61,13 @@ int main()
 
 	// Print inputted data
 	std::cout << "--- Initial Node State ---\n";
-	print_nodes(nodes);
+	print_nodes(nodes, &Node::get_clean_string);
 
 	// Enter main loop
 	std::cout << "--- Within Main Loop ---\n";
 	main_loop(nodes, controller);
 
 	// Print final state
-	std::cout << "--- Final Node State ---\n";
-	print_nodes(nodes);
+	std::cout << "\n--- Final Node State ---";
+	print_nodes(nodes, &Node::get_debug_string);
 }

@@ -5,20 +5,27 @@ Node::Node(int id, std::vector<int> proc_resources)
 
 bool Node::update()
 {
-	bool action = false;
 	if (!proc_required_resources.empty())
 	{
 		auto res_index = proc_required_resources.back();
-		bool reserved = action = shared_resources[res_index]->reserve(id);
-		
+		bool reserved = shared_resources[res_index]->reserve(id);
+
 		if (reserved)
 		{
-			proc_pending_resources.push_back(res_index);
-			proc_required_resources.pop_back();
+			std::cout << "[Request]: Node " << id << " -> Resource: " << res_index << ": SUCCESS\n";
 		}
+		else
+		{
+			std::cout << "[Request]: Node " << id << " -> Resource: " << res_index << ": FAILED\n";
+			proc_pending_resources.push_back(res_index);
+		}
+
+		// In reality, if this has not been secured already it will never become free
+		// Therefore we can just pop it, simplifying things
+		proc_required_resources.pop_back();
 	}
 
-	return action;
+	return proc_required_resources.empty();
 }
 
 void Node::use_resource(int res_id, int user_id)
@@ -38,30 +45,42 @@ std::string Node::get_debug_string() const
 	out << "ID: " << id << "\n";
 	out << "Shared resources size: " << shared_resources.size() << "\n";
 
-	out << "Used resource to holder: ";
+	out << "Used resource -> holder: ";
 	for (auto [resource, holder] : used_resources_to_holder)
 	{
 		out << "[" << resource << ", " << holder << "] ";
 	}
 
-	out << "Proc required resources: ";
+	out << "\nProc required resources: ";
 	for (int resource : proc_required_resources)
 	{
 		out << resource << " ";
 	}
 
-	out << "\nProc held resources: ";
+	out << "\nProc pending resources: ";
 	for (int resource : proc_pending_resources)
 	{
 		out << resource << " ";
 	}
 
+	std::cout << "\n";
 	return out.str();
 }
 
-bool Node::get_is_blocked() const
+std::string Node::get_clean_string() const
 {
-	return is_blocked;
+	std::ostringstream out;
+
+	out << "ID: " << id << "\n";
+	out << "Needed resources: ";
+	for (int resource : proc_required_resources)
+	{
+		out << resource << " ";
+	}
+
+	out << "\n";
+
+	return out.str();
 }
 
 std::vector<int> Node::get_pending_nodes() const

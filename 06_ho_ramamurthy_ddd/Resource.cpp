@@ -10,6 +10,7 @@ bool Resource::reserve(int requester_id)
 	// Update parent's table.
 	parent->use_resource(id, requester_id);
 	taken = true;
+
 	return true;
 }
 

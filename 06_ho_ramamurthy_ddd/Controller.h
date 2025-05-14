@@ -25,6 +25,7 @@ public:
 
 private:
 	/* Private Methods */
-	void build_graph(const std::vector<std::shared_ptr<Node>>& nodes);
+	void rebuild_graph(const std::vector<std::shared_ptr<Node>>& nodes);
+	void print_graph();
 	bool detect_cycles();
 };

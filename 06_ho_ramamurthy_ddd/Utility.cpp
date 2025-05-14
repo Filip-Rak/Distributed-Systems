@@ -39,6 +39,7 @@ std::pair<std::vector<std::shared_ptr<Node>>,
     }
 
     // Load processes
+    // Format: [node_id resource resource ... ]
     std::unordered_map<int, std::vector<int>> node_to_process; // <node_id, [resources]>]
 
     std::string line;
@@ -94,10 +95,10 @@ std::pair<std::vector<std::shared_ptr<Node>>,
     return { nodes, resources };
 }
 
-void print_nodes(const std::vector<std::shared_ptr<Node>>& nodes)
+void print_nodes(const std::vector<std::shared_ptr<Node>>& nodes, std::string(Node::*method)() const)
 {
     for (auto node_ptr : nodes)
     {
-        std::cout << node_ptr->get_debug_string() << "\n\n";
+        std::cout << (node_ptr.get()->*method)() << "\n";
     }
 }

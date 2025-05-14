@@ -17,7 +17,6 @@ class Node
 	/* Attributes */
 	const int id;
 
-	bool is_blocked = false;
 	std::vector<std::shared_ptr<Resource>> shared_resources;
 	std::unordered_map<int, int> used_resources_to_holder;
 
@@ -37,8 +36,8 @@ public:
 
 	/* Getters */
 	std::string get_debug_string() const;
+	std::string get_clean_string() const;
 	std::vector<int> get_pending_nodes() const;
-	bool get_is_blocked() const;
 	int get_blocker_of_res(int id) const;
 	int get_id() const;
 };
