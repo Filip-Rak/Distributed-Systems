@@ -22,7 +22,7 @@ void main_loop(const std::vector<std::shared_ptr<Node>>& nodes, Controller& cont
 		// None of the nodes did anything -> Stop
 		if (!state_change)
 		{
-			std::cout << "Stabilised. Exitting main loop...\n";
+			std::cout << "Stabilized. Exitting main loop...\n";
 			break;
 		}
 
@@ -40,7 +40,7 @@ int main()
 	std::string filename = "input1.txt";
 
 	std::cout << "File name with extension: ";
-	// std::cin >> filename;
+	std::cin >> filename;
 
 	std::pair<std::vector<std::shared_ptr<Node>>, std::vector<std::shared_ptr<Resource>>> loaded_data;
 	try
@@ -69,5 +69,5 @@ int main()
 
 	// Print final state
 	std::cout << "\n--- Final Node State ---";
-	print_nodes(nodes, &Node::get_debug_string);
+	print_nodes(nodes, &Node::get_detailed_string);
 }

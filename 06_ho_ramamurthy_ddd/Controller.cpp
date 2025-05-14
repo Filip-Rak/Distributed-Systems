@@ -5,12 +5,19 @@ Controller::Controller(const std::vector<std::shared_ptr<Resource>>& resources)
 
 bool Controller::check_deadlock(const std::vector<std::shared_ptr<Node>>& nodes)
 {
+	std::cout << "[Controller]: Trying to build WFG graph\n";
 	rebuild_graph(nodes);
 
 	print_graph();
 
 	// Cycle == deadlock
-	return detect_cycles();
+	bool deadlock = detect_cycles();
+	if (deadlock)
+		std::cout << "[Controller]: Reporting deadlock\n";
+	else
+		std::cout << "[Controller]: Nothing to report\n";
+
+	return deadlock;
 }
 
 void Controller::print_graph()
@@ -18,10 +25,10 @@ void Controller::print_graph()
 	if (graph.empty())
 		return;
 
-	std::cout << "/* Graph */\n";
+	std::cout << "[Controller]: Print graph\n=== START GRAPH\n";
 	for (auto& [key, neighbors] : graph)
 	{
-		std::cout << key << ": ";
+		std::cout << "=== " << key << ": ";
 		for (int neighbor : neighbors)
 		{
 			std::cout << neighbor << " ";
@@ -29,11 +36,14 @@ void Controller::print_graph()
 
 		std::cout << "\n";
 	}
+
+	std::cout << "=== END GRAPH\n";
 }
 
 void Controller::rebuild_graph(const std::vector<std::shared_ptr<Node>>& nodes)
 {
 	graph.clear();
+
 	for (auto node_ptr : nodes)
 	{
 		auto pending_resource_vec = node_ptr->get_pending_nodes();

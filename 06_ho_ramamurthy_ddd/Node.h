@@ -35,7 +35,7 @@ public:
 	void set_resource_ptr(const std::vector<std::shared_ptr<Resource>>& resources);
 
 	/* Getters */
-	std::string get_debug_string() const;
+	std::string get_detailed_string() const;
 	std::string get_clean_string() const;
 	std::vector<int> get_pending_nodes() const;
 	int get_blocker_of_res(int id) const;

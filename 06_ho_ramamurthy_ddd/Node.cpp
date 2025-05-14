@@ -16,7 +16,7 @@ bool Node::update()
 		}
 		else
 		{
-			std::cout << "[Request]: Node " << id << " -> Resource: " << res_index << ": FAILED\n";
+			std::cout << "[Request]: Node " << id << " -> Resource: " << res_index << ": FAILURE\n";
 			proc_pending_resources.push_back(res_index);
 		}
 
@@ -25,7 +25,7 @@ bool Node::update()
 		proc_required_resources.pop_back();
 	}
 
-	return proc_required_resources.empty();
+	return !proc_required_resources.empty();
 }
 
 void Node::use_resource(int res_id, int user_id)
@@ -38,23 +38,16 @@ void Node::set_resource_ptr(const std::vector<std::shared_ptr<Resource>>& resour
 	shared_resources = resources;
 }
 
-std::string Node::get_debug_string() const
+std::string Node::get_detailed_string() const
 {
 	std::ostringstream out;
 
 	out << "ID: " << id << "\n";
-	out << "Shared resources size: " << shared_resources.size() << "\n";
 
 	out << "Used resource -> holder: ";
 	for (auto [resource, holder] : used_resources_to_holder)
 	{
 		out << "[" << resource << ", " << holder << "] ";
-	}
-
-	out << "\nProc required resources: ";
-	for (int resource : proc_required_resources)
-	{
-		out << resource << " ";
 	}
 
 	out << "\nProc pending resources: ";
