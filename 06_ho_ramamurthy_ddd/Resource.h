@@ -4,6 +4,8 @@
 
 #include "Node.h"
 
+class Node;
+
 class Resource
 {
 	/* Attributes */

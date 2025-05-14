@@ -69,11 +69,11 @@ std::vector<std::shared_ptr<Node>> load_from_file(const std::string& filename)
         auto it = node_to_process.find(i);
         if (it == node_to_process.end())
         {
-            nodes.push_back(std::make_shared<Node>(i, -1));
+            nodes.push_back(std::make_shared<Node>(i));
         }
         else
         {
-            nodes.push_back(std::make_shared<Node>(i, it->first, it->second));
+            nodes.push_back(std::make_shared<Node>(i, it->second.first, it->second.second));
         }
     }
 
@@ -94,4 +94,12 @@ std::vector<std::shared_ptr<Node>> load_from_file(const std::string& filename)
     }
 
     return nodes;
+}
+
+void print_nodes(const std::vector<std::shared_ptr<Node>>& nodes)
+{
+    for (auto node_ptr : nodes)
+    {
+        std::cout << node_ptr->get_debug_string() << "\n\n";
+    }
 }

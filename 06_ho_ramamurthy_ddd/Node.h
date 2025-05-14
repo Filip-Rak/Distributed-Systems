@@ -4,8 +4,13 @@
 #include <unordered_map>
 #include <queue>
 #include <memory>
+#include <string>
+#include <sstream>
+#include <iostream>
 
 #include "Resource.h"
+
+class Resource;
 
 class Node
 {	
@@ -29,6 +34,9 @@ public:
 
 	/* Setters */
 	void set_resource_ptr(const std::vector<std::shared_ptr<Resource>>& resources);
+
+	/* Getters */
+	std::string get_debug_string();
 
 private:
 	/* Private Methods */
