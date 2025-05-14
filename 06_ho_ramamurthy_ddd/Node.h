@@ -20,12 +20,12 @@ class Node
 	std::vector<std::shared_ptr<Resource>> shared_resources;
 	std::unordered_map<int, int> used_resources_to_holder;
 
-	std::vector<int> proc_required_resources;
+	std::queue<int> proc_required_resources;
 	std::vector<int> proc_pending_resources;
 
 public:
 	/* Constructor */
-	Node(int id, std::vector<int> proc_resources = {});
+	Node(int id, std::queue<int> proc_resources = {});
 
 	/* Public Methods  */
 	bool update();

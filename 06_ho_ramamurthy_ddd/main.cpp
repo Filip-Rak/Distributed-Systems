@@ -19,17 +19,17 @@ void main_loop(const std::vector<std::shared_ptr<Node>>& nodes, Controller& cont
 				state_change = true;
 		}
 
-		// None of the nodes did anything -> Stop
-		if (!state_change)
-		{
-			std::cout << "Stabilized. Exitting main loop...\n";
-			break;
-		}
-
 		// Deadlock happened -> Stop
 		if (controller.check_deadlock(nodes))
 		{
 			std::cout << "Deadlock detected. Exitting main loop...\n";
+			break;
+		}
+
+		// None of the nodes did anything -> Stop
+		if (!state_change)
+		{
+			std::cout << "Stabilized. Exitting main loop...\n";
 			break;
 		}
 	}

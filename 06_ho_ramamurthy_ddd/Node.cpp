@@ -1,13 +1,13 @@
 #include "Node.h"
 
-Node::Node(int id, std::vector<int> proc_resources)
+Node::Node(int id, std::queue<int> proc_resources)
 	: id(id), proc_required_resources(proc_resources){}
 
 bool Node::update()
 {
 	if (!proc_required_resources.empty())
 	{
-		auto res_index = proc_required_resources.back();
+		auto res_index = proc_required_resources.front();
 		bool reserved = shared_resources[res_index]->reserve(id);
 
 		if (reserved)
@@ -22,7 +22,7 @@ bool Node::update()
 
 		// In reality, if this has not been secured already it will never become free
 		// Therefore we can just pop it, simplifying things
-		proc_required_resources.pop_back();
+		proc_required_resources.pop();
 	}
 
 	return !proc_required_resources.empty();
@@ -66,9 +66,12 @@ std::string Node::get_clean_string() const
 
 	out << "ID: " << id << "\n";
 	out << "Needed resources: ";
-	for (int resource : proc_required_resources)
+
+	std::queue<int> nr_cp(proc_required_resources);
+	while (!nr_cp.empty())
 	{
-		out << resource << " ";
+		out << nr_cp.front() << " ";
+		nr_cp.pop();
 	}
 
 	out << "\n";

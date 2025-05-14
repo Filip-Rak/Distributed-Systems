@@ -40,7 +40,7 @@ std::pair<std::vector<std::shared_ptr<Node>>,
 
     // Load processes
     // Format: [node_id resource resource ... ]
-    std::unordered_map<int, std::vector<int>> node_to_process; // <node_id, [resources]>]
+    std::unordered_map<int, std::queue<int>> node_to_process; // <node_id, [resources]>]
 
     std::string line;
     while (std::getline(file, line))
@@ -53,7 +53,7 @@ std::pair<std::vector<std::shared_ptr<Node>>,
         int buffer;
         while (ss >> buffer)
         {
-            node_to_process[node_id].push_back(buffer);
+            node_to_process[node_id].push(buffer);
         }
     }
 
