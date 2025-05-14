@@ -5,6 +5,7 @@ Node::Node(int id, std::queue<int> proc_resources)
 
 bool Node::update()
 {
+	// Attempt reserving the first resource in the queue
 	if (!proc_required_resources.empty())
 	{
 		auto res_index = proc_required_resources.front();

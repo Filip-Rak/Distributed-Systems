@@ -17,7 +17,7 @@ class Node
 	/* Attributes */
 	const int id;
 
-	std::shared_ptr<std::vector<int>> shared_resources;
+	std::shared_ptr<std::vector<int>> shared_resources;	// Integer represents the holder. -1 for free
 
 	std::queue<int> proc_required_resources;
 	std::vector<int> proc_pending_resources;

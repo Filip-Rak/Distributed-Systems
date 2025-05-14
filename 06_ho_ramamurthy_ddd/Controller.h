@@ -14,7 +14,7 @@ class Controller
 {
 	/* Attributes */
 	std::unordered_map<int, std::vector<int>> graph;
-	std::shared_ptr<std::vector<int>> resources;
+	std::shared_ptr<std::vector<int>> resources;	// Integer represents the holder. -1 for free
 
 public:
 	/* Cosntructor */
