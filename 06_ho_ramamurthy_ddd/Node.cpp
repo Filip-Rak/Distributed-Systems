@@ -17,6 +17,11 @@ void Node::use_resource(int res_id, int user_id)
 	used_resources_to_holder[res_id] = user_id;
 }
 
+void Node::set_resource_ptr(const std::vector<std::shared_ptr<Resource>>& resources)
+{
+	shared_resources = resources;
+}
+
 void Node::try_reserve_resource()
 {
 	for (int res_index : proc_required_resources)
