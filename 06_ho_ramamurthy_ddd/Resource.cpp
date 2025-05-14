@@ -1,20 +1,21 @@
 #include "Resource.h"
 
-Resource::Resource(int id, const std::shared_ptr<Node>& parent)
-	: id(id), parent(parent){}
+Resource::Resource(int id)
+	: id(id){}
 
 bool Resource::reserve(int requester_id)
 {
 	if (taken) return false;
 
 	// Update parent's table.
-	parent->use_resource(id, requester_id);
 	taken = true;
+	taker_id = requester_id;
 
 	return true;
 }
 
-std::shared_ptr<Node> Resource::get_parent()
+int Resource::get_taker_id()
 {
-	return parent;
+	return taker_id;
 }
+

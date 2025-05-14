@@ -17,27 +17,6 @@ std::pair<std::vector<std::shared_ptr<Node>>,
     if (num_nodes <= 0 || num_resources <= 0)
         throw std::runtime_error("Invalid file format");
 
-    // Load resources
-    // Format [node_index res res ...]
-    file.ignore();
-
-    std::unordered_map<int, int> resource_to_node;
-    for (int i = 0; i < num_nodes; i++)
-    {
-        std::string line;
-        std::getline(file, line);
-        std::stringstream ss(line);
-
-        int node_id;
-        ss >> node_id;
-
-        int buffer;
-        while (ss >> buffer)
-        {
-            resource_to_node[buffer] = node_id;
-        }
-    }
-
     // Load processes
     // Format: [node_id resource resource ... ]
     std::unordered_map<int, std::queue<int>> node_to_process; // <node_id, [resources]>]
@@ -82,8 +61,7 @@ std::pair<std::vector<std::shared_ptr<Node>>,
 
     for (std::size_t i = 0; i < num_resources; i++)
     {
-        std::shared_ptr<Node> parent = nodes[resource_to_node[i]];
-        resources.push_back(std::make_shared<Resource>(i, parent));
+        resources.push_back(std::make_shared<Resource>(i));
     }
 
     // Assign resources to nodes

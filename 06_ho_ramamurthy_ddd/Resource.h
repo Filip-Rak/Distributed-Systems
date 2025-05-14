@@ -12,15 +12,15 @@ class Resource
 	const int id;
 
 	bool taken = false;
-	std::shared_ptr<Node> parent;
+	int taker_id = -1;
 
 public:
 	/* Constructor */
-	Resource(int id, const std::shared_ptr<Node>& parent);
+	Resource(int id);
 
 	/* Public Methods */
 	bool reserve(int requester_id);
 
 	/* Getters */
-	std::shared_ptr<Node> get_parent();
+	int get_taker_id();
 };

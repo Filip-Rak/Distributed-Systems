@@ -18,7 +18,7 @@ class Node
 	const int id;
 
 	std::vector<std::shared_ptr<Resource>> shared_resources;
-	std::unordered_map<int, int> used_resources_to_holder;
+	// std::shared_ptr<std::vector<bool>> shared_resources;
 
 	std::queue<int> proc_required_resources;
 	std::vector<int> proc_pending_resources;
@@ -29,7 +29,6 @@ public:
 
 	/* Public Methods  */
 	bool update();
-	void use_resource(int res_id, int user_id);
 
 	/* Setters */
 	void set_resource_ptr(const std::vector<std::shared_ptr<Resource>>& resources);
@@ -38,6 +37,5 @@ public:
 	std::string get_detailed_string() const;
 	std::string get_clean_string() const;
 	std::vector<int> get_pending_nodes() const;
-	int get_blocker_of_res(int id) const;
 	int get_id() const;
 };

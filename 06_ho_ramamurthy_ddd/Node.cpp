@@ -28,11 +28,6 @@ bool Node::update()
 	return !proc_required_resources.empty();
 }
 
-void Node::use_resource(int res_id, int user_id)
-{
-	used_resources_to_holder[res_id] = user_id;
-}
-
 void Node::set_resource_ptr(const std::vector<std::shared_ptr<Resource>>& resources)
 {
 	shared_resources = resources;
@@ -43,13 +38,6 @@ std::string Node::get_detailed_string() const
 	std::ostringstream out;
 
 	out << "ID: " << id << "\n";
-
-	out << "Used resource -> holder: ";
-	for (auto [resource, holder] : used_resources_to_holder)
-	{
-		out << "[" << resource << ", " << holder << "] ";
-	}
-
 	out << "\nProc pending resources: ";
 	for (int resource : proc_pending_resources)
 	{
@@ -82,11 +70,6 @@ std::string Node::get_clean_string() const
 std::vector<int> Node::get_pending_nodes() const
 {
 	return proc_pending_resources;
-}
-
-int Node::get_blocker_of_res(int res_id) const
-{
-	return used_resources_to_holder.find(res_id)->second;
 }
 
 int Node::get_id() const

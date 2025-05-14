@@ -49,7 +49,7 @@ void Controller::rebuild_graph(const std::vector<std::shared_ptr<Node>>& nodes)
 		auto pending_resource_vec = node_ptr->get_pending_nodes();
 		for (int res_id : pending_resource_vec)
 		{
-			auto blocker_node_id = resources[res_id]->get_parent()->get_blocker_of_res(res_id);
+			auto blocker_node_id = resources[res_id]->get_taker_id();
 			graph[node_ptr->get_id()].push_back(blocker_node_id);
 		}
 	}
