@@ -3,25 +3,12 @@
 Controller::Controller(const std::vector<std::shared_ptr<Resource>>& resources)
 	: resources(resources){}
 
-void Controller::update(const std::vector<std::shared_ptr<Node>>& nodes)
+bool Controller::check_deadlock(const std::vector<std::shared_ptr<Node>>& nodes)
 {
 	graph.clear();
-
-	for (auto node_ptr : nodes)
-	{
-		if (node_ptr->get_is_blocked() || true)
-		{
-			auto pending_resource_vec = node_ptr->get_pending_nodes();
-			for (int res_id : pending_resource_vec)
-			{
-				auto blocker_node_id = resources[res_id]->get_parent()->get_blocker_of_res(res_id);
-				graph[node_ptr->get_id()].push_back(blocker_node_id);
-			}
-		}
-	}
+	build_graph(nodes);
 
 	// Print the graph
-
 	std::cout << "/* Graph */\n";
 	for (auto& [key, neighbors] : graph)
 	{
@@ -33,6 +20,8 @@ void Controller::update(const std::vector<std::shared_ptr<Node>>& nodes)
 
 		std::cout << "\n";
 	}
+
+	return detect_cycles();
 }
 
 bool Controller::detect_cycles()
@@ -60,4 +49,20 @@ bool Controller::detect_cycles()
 	}
 
 	return false;
+}
+
+void Controller::build_graph(const std::vector<std::shared_ptr<Node>>& nodes)
+{
+	for (auto node_ptr : nodes)
+	{
+		if (node_ptr->get_is_blocked() || true)
+		{
+			auto pending_resource_vec = node_ptr->get_pending_nodes();
+			for (int res_id : pending_resource_vec)
+			{
+				auto blocker_node_id = resources[res_id]->get_parent()->get_blocker_of_res(res_id);
+				graph[node_ptr->get_id()].push_back(blocker_node_id);
+			}
+		}
+	}
 }

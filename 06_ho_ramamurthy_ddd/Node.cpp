@@ -1,24 +1,24 @@
 #include "Node.h"
 
-Node::Node(int id, int proc_timestamp, std::vector<int> proc_resources)
-	: id(id), proc_time_entry(proc_timestamp), proc_required_resources(proc_resources){}
+Node::Node(int id, std::vector<int> proc_resources)
+	: id(id), proc_required_resources(proc_resources){}
 
-bool Node::process(int iteration)
+bool Node::update()
 {
-	// Ask for resources ONLY once (==)
-	if (iteration >= proc_time_entry)
+	bool action = false;
+	if (!proc_required_resources.empty())
 	{
-		try_reserve_resource();
-
-		if (proc_pending_resources.size() < proc_required_resources.size())
+		auto res_index = proc_required_resources.back();
+		bool reserved = action = shared_resources[res_index]->reserve(id);
+		
+		if (reserved)
 		{
-			is_blocked = true;
+			proc_pending_resources.push_back(res_index);
+			proc_required_resources.pop_back();
 		}
-
-		return true;
 	}
 
-	return false;
+	return action;
 }
 
 void Node::use_resource(int res_id, int user_id)
@@ -43,8 +43,6 @@ std::string Node::get_debug_string() const
 	{
 		out << "[" << resource << ", " << holder << "] ";
 	}
-
-	out << "\nProc time entry: " << proc_time_entry << "\n";
 
 	out << "Proc required resources: ";
 	for (int resource : proc_required_resources)
@@ -79,22 +77,4 @@ int Node::get_blocker_of_res(int res_id) const
 int Node::get_id() const
 {
 	return id;
-}
-
-void Node::try_reserve_resource()
-{
-	/*for (int res_index : proc_required_resources)
-	{
-		bool reserved = shared_resources[res_index]->reserve(id);
-		if (!reserved) proc_pending_resources.push_back(res_index);
-	}*/
-
-	if (!proc_required_resources.empty())
-	{
-		auto res_index = proc_required_resources.back();
-		proc_required_resources.pop_back();
-
-		bool reserved = shared_resources[res_index]->reserve(id);
-		if (!reserved) proc_pending_resources.push_back(res_index);
-	}
 }

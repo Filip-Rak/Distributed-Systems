@@ -12,22 +12,23 @@ void main_loop(const std::vector<std::shared_ptr<Node>>& nodes, Controller& cont
 	int iteration = 0;
 	while (true)
 	{
+		// Update nodes
 		bool state_change = false;
 		for (auto node_ptr : nodes)
 		{
-			if (node_ptr->process(iteration))
+			if (node_ptr->update())
 				state_change = true;
 		}
 
+		// None of the nodes did anything -> Stop
 		if (!state_change)
 		{
 			std::cout << "Stabilised. Exitting main loop...\n";
 			break;
 		}
 
-		controller.update(nodes);
-
-		if (controller.detect_cycles())
+		// Deadlock happened -> Stop
+		if (controller.check_deadlock(nodes))
 		{
 			std::cout << "Deadlock detected. Exitting main loop...\n";
 			break;

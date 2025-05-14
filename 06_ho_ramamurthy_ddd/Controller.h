@@ -21,6 +21,10 @@ public:
 	Controller(const std::vector<std::shared_ptr<Resource>>& resources);
 
 	/* Public Methods */
-	void update(const std::vector<std::shared_ptr<Node>>& nodes);
+	bool check_deadlock(const std::vector<std::shared_ptr<Node>>& nodes);
+
+private:
+	/* Private Methods */
+	void build_graph(const std::vector<std::shared_ptr<Node>>& nodes);
 	bool detect_cycles();
 };

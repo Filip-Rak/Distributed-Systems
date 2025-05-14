@@ -39,10 +39,9 @@ std::pair<std::vector<std::shared_ptr<Node>>,
     }
 
     // Load processes
-    std::unordered_map<int, std::pair<int, std::vector<int>>> node_to_process; // <node_id, <process_timestsamp, [resources]>]
+    std::unordered_map<int, std::vector<int>> node_to_process; // <node_id, [resources]>]
 
     std::string line;
-    int timestamp = 0;
     while (std::getline(file, line))
     {
         std::stringstream ss(line);
@@ -50,13 +49,10 @@ std::pair<std::vector<std::shared_ptr<Node>>,
         int node_id;
         ss >> node_id;
 
-        // node_to_process[node_id].first = timestamp++;
-        node_to_process[node_id].first = timestamp;
-
         int buffer;
         while (ss >> buffer)
         {
-            node_to_process[node_id].second.push_back(buffer);
+            node_to_process[node_id].push_back(buffer);
         }
     }
 
@@ -75,7 +71,7 @@ std::pair<std::vector<std::shared_ptr<Node>>,
         }
         else
         {
-            nodes.push_back(std::make_shared<Node>(i, it->second.first, it->second.second));
+            nodes.push_back(std::make_shared<Node>(i, it->second));
         }
     }
 
