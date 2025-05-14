@@ -1,5 +1,5 @@
 /*
- *	Assignment: Centralized Deadlock Detection Algorithm
+ *	Assignment: Ho-Ramamurthy Centralized Deadlock Detection Algorithm
  *	Author: Filip Rak
  *
  *  Description:
